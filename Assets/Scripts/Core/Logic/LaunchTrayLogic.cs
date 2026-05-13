@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using Blast.Core.Data;
+using Blast.Core.Event;
+using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
-    // Controller'ýn animasyonlarý oynatmasý için gerekli veriyi taþýyan yapý
+    
     public class MergeResult
     {
         public bool IsMerged { get; set; }
@@ -14,11 +15,13 @@ namespace Blast.Core.Logic
 
     public class LaunchTrayLogic
     {
+        private readonly GameEventQueue _eventQueue;
         private readonly LaunchTrayData _data;
 
         public LaunchTraySlotLogic[] slotLogics;
-        public LaunchTrayLogic(int capacity)
+        public LaunchTrayLogic(int capacity, GameEventQueue eventQueue)
         {
+            _eventQueue = eventQueue;
             _data = new LaunchTrayData(capacity);
 
             slotLogics = new LaunchTraySlotLogic[capacity];
@@ -36,18 +39,19 @@ namespace Blast.Core.Logic
             {
                 slotLogics[i].Tick(deltaTime);
             }
-            // Her tick'te merge kontrolü yapýyor, ve yaptýðý da performanslý deðil sonra düzeltilcek... mimari þiþmesin diye...
-            // refactor yaparken mid loop mutation dikkate alýnacak.
+            // TODO[P2] : TryMergeAll' early exit eklenecek. local parametre isimleri daha anlaþýlýr yapýlacak. 
+            // TODO[P3] : Her tick'te merge kontrolü yapýyor -> bakýlacak. refactor yaparken mid loop mutation dikkate alýnacak.
             return TryMergeAll(); 
         }
 
-        public void AddShooter(ShooterLogic shooter, float arrivalDuration=0.15f)
+        public int AddShooter(ShooterLogic shooter, float arrivalDuration=0.15f)
         {
             int slotIndex = GetAvailableSlotIndex();
-            if (slotIndex == -1) return;
+            if (slotIndex == -1) return -1;
             
             RegisterShooterAt(slotIndex, shooter, arrivalDuration);
-            
+            // ShooterSentEvent iki farkli logic elemaniyla gerceklestirildiginden, event gameplay logicte queue'ya ekleniyor. 
+            return slotIndex;
         }
 
         public bool HasSpace()
@@ -76,25 +80,6 @@ namespace Blast.Core.Logic
             }
         }
 
-        public void RegisterShooterAt2(int index, ShooterData shooterData)
-        {
-            /* gameloop logice taþýnýnca firecoordinator:
-              public event Action<Shooter> OnShooterRegistered;
-              public event Action<Shooter> OnShooterRemoved;
-              // Pure C# tarafýnda, oyunun baþlangýcýnda bir yerde:
-            _trayLogic.OnShooterRegistered += _fireCoordinator.Register;
-            _trayLogic.OnShooterRemoved   += _fireCoordinator.Unregister;
-             */
-
-        }
-
-        /*public void MarkAsArrived(int index)
-        {
-            if (index >= 0 && index < _data.Slots.Length)
-            {
-                _data.Slots[index].MarkArrived();
-            }
-        }*/
 
         public void ClearSlot(int index)
         {
@@ -136,15 +121,29 @@ namespace Blast.Core.Logic
                 if (matchingSlots.Count < 3)
                     continue;
 
+
+
+
+                //AAEVENT
+                List<int> consumedShooterIds = new List<int>();
+
                 // Orijinal kuraldaki gibi: listenin 2. elemaný (index 1) hayatta kalýyor
                 int survivorIndex = matchingSlots[1];
+
+                //AAEVENT
+                int survivorShooterId = slotLogics[survivorIndex].ShooterLogic.Id;
+
                 matchingSlots.RemoveAt(1);
                 List<int> consumedSlots = matchingSlots;
+
+                
 
                 int bonusAmmo = 0;
                 foreach (int index in consumedSlots)
                 {
                     bonusAmmo += slotLogics[index].ShooterLogic.Ammo;
+                    //AAEVENT
+                    consumedShooterIds.Add(slotLogics[index].ShooterLogic.Id);
                     slotLogics[index].Clear();
                 }
 
@@ -152,6 +151,8 @@ namespace Blast.Core.Logic
 
                 if (results == null)
                     results = new List<MergeResult>();
+                UnityEngine.Debug.Log($"[LAUNCHTRAYLOGIC] Merge oldu! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
+                _eventQueue.Enqueue(new ShootersMergedEvent(survivorShooterId, consumedShooterIds, slotLogics[survivorIndex].ShooterLogic.Ammo));
 
                 results.Add(new MergeResult
                 {
@@ -184,7 +185,7 @@ namespace Blast.Core.Logic
         }
 
 
-
+        /*
         public MergeResult ExecuteMerge(CubeColor color)
         {
             List<int> matchingSlots = new List<int>();
@@ -219,6 +220,7 @@ namespace Blast.Core.Logic
 
             // Hayatta kalan mantýksal modele (ShooterLogic) mermileri ekle.
             slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
+            
 
             return new MergeResult
             {
@@ -228,5 +230,13 @@ namespace Blast.Core.Logic
                 TotalBonusAmmo = bonusAmmo
             };
         }
+        */
+
+
     }
 }
+
+
+
+
+

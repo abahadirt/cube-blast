@@ -1,69 +1,53 @@
-using Blast.Core.Logic;
-using System.Collections.Generic;
+using Blast.Core.Event;
 
-public class FireCoordinator
+namespace Blast.Core.Logic
 {
-
-    private readonly TargetSelector _targetSelector;
-
-    //private List<ShooterLogic> _shooters = new List<ShooterLogic>();
-
-    private LaunchTrayLogic _launchTrayLogic;
-    public FireCoordinator(TargetSelector targetSelector, LaunchTrayLogic launchTrayLogic)
+    public class FireCoordinator
     {
-        _targetSelector = targetSelector;
-        _launchTrayLogic = launchTrayLogic;
-    }
+        private readonly GameEventQueue _eventQueue;
 
+        private readonly TargetSelector _targetSelector;
 
-
-    public void Tick(float deltaTime)
-    {
-        foreach (LaunchTraySlotLogic slot in _launchTrayLogic.slotLogics)
+        private LaunchTrayLogic _launchTrayLogic;
+        public FireCoordinator(TargetSelector targetSelector, LaunchTrayLogic launchTrayLogic, GameEventQueue eventQueue)
         {
-            var shooter = slot.ShooterLogic;
-            if (shooter == null) continue;
-
-            shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
-
-            if (!shooter.IsActive || shooter.IsDepleted) continue;
-
-            if (!shooter.CanFire) continue;
-
-            var targetResult = _targetSelector.FindTarget(shooter.Color);
-            if (!targetResult.HasTarget) continue;
-
-            // BI YOLU BULUNUR... 
-            // adapterde columndan pos buluruz ball fýrlatýrýz
-
-            int targetColumn = targetResult.Column;
-            shooter.Fire();
+            _targetSelector = targetSelector;
+            _launchTrayLogic = launchTrayLogic;
+            _eventQueue = eventQueue;
         }
 
-        /*
-        for (int i = 0; i < _shooters.Count; i++)
+
+        // TODO[P1]: yaklaþým review edilecek
+        public void Tick(float deltaTime)
         {
-            var shooter = _shooters[i];
-            shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
+            int slotIndex = -1;
+            foreach (LaunchTraySlotLogic slot in _launchTrayLogic.slotLogics)
+            {
+                slotIndex += 1;
+                var shooter = slot.ShooterLogic;
+                if (shooter == null) continue;
 
-            if (!shooter.IsActive || shooter.IsDepleted) continue;
-            if (!shooter.CanFire) continue;
+                shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
 
-            var targetResult = _targetSelector.FindTarget(shooter.Color);
-            if (!targetResult.HasTarget) continue;
+                if (!shooter.IsActive || shooter.IsDepleted) continue;
 
-            // BI YOLU BULUNUR... 
-            // adapterde columndan pos buluruz ball fýrlatýrýz
-            int targetColumn = targetResult.Column;
-            shooter.TryFire();
+                if (!shooter.CanFire) continue;
+
+                var targetResult = _targetSelector.FindTarget(shooter.Color);
+                if (!targetResult.HasTarget) continue;
+
+
+
+                int targetColumn = targetResult.Column;
+                int hitRow = targetResult.Row;
+                shooter.Fire();
+                _eventQueue.Enqueue(new ShooterFiredEvent(shooter.Id, slotIndex, shooter.Color, targetColumn, hitRow, shooter.Ammo));
+                //_eventQueue.Enqueue(new CubeHitEvent(targetColumn,hitRow, true));
+            }
         }
-        */
+
 
     }
-
-
-
-
 
 }
 
@@ -71,50 +55,3 @@ public class FireCoordinator
 
 
 
-
-
-
-/*
-
-using Blast.Core.Logic;
-using System.Collections.Generic;
-
-public class FireCoordinator
-{
-
-    private readonly TargetSelector _targetSelector;
-
-    private List<ShooterLogic> _shooters = new List<ShooterLogic>();
-
-    private LaunchTrayLogic _launchTrayLogic;
-    public FireCoordinator(TargetSelector targetSelector)
-    {
-        _targetSelector = targetSelector;
-    }
-
- 
-
-    public void Tick(float deltaTime)
-    {
-        //_launhTrayLogic.Slots.
-        for (int i = 0; i < _shooters.Count; i++)
-        {
-            var shooter = _shooters[i];
-            shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
-
-            if (!shooter.IsActive || shooter.IsDepleted) continue;
-            if (!shooter.CanFire) continue;
-
-            var targetResult = _targetSelector.FindTarget(shooter.Color);
-            if (!targetResult.HasTarget) continue;
-
-            // BI YOLU BULUNUR... 
-            // adapterde columndan pos buluruz ball fýrlatýrýz
-            int targetColumn = targetResult.Column;
-            shooter.TryFire();
-        }
-    }
-}
-
-
-*/

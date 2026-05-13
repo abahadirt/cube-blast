@@ -3,18 +3,21 @@ using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
+
+    // farklý küp turleri eklenince ihtiyaç olacak.
     public readonly struct TargetResult
     {
         public readonly bool HasTarget;
         public readonly int Column;
-
-        public TargetResult(bool hasTarget, int column)
+        public readonly int Row;
+        public TargetResult(bool hasTarget, int column, int row)
         {
             HasTarget = hasTarget;
             Column = column;
+            Row = row;
         }
 
-        public static TargetResult None => new TargetResult(false, -1);
+        public static TargetResult None => new TargetResult(false, -1,-1);
     }
 
     public class TargetSelector
@@ -27,6 +30,8 @@ namespace Blast.Core.Logic
             _board = board;
         }
 
+
+        // TODO[P1]: Single Resp. bozuyor, yaklaþým review edilecek, metod isim güncellenebilir.
         public TargetResult FindTarget(CubeColor color)
         {
             if (!_colorMemory.ContainsKey(color))
@@ -41,9 +46,9 @@ namespace Blast.Core.Logic
                 if (_board.HasValidTarget(currentCol, color))
                 {
                     _colorMemory[color] = currentCol;
-
-                    _board.LogicalHit(currentCol); // pre-emptive hit (orijinal davranýþ)
-                    return new TargetResult(true, currentCol);
+                    int hitRow = _board.GetColumnBottom(currentCol);
+                    _board.LogicalHit(currentCol); // pre emptive hit
+                    return new TargetResult(true, currentCol,hitRow);
                 }
             }
 

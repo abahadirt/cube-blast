@@ -5,15 +5,14 @@ namespace Blast.Core.Logic
     public class  LaunchTraySlotLogic
     {
         
-        
         private LaunchTraySlotData _data;
-        public ShooterLogic ShooterLogic => _data.ShooterLogic;
+        public ShooterLogic ShooterLogic { get; private set; }
 
-        // Dýþarýdan okuma kolaylýðý için (Opsiyonel)
-
-        public bool IsAvailable => _data.IsAvailable; //TODO[P1] bir iþe yaramýyor. isim kafa karýþtýrýcý, dolu boþ diye tutcaz.
+        // Expose
+        public bool IsAvailable => _data.IsEmpty; 
         public bool HasArrived => _data.HasArrived; 
         public float ArrivalProgress => _data.ArrivalProgress;
+        public float ArrivalDuration => _data.arrivalDuration;
 
         public LaunchTraySlotLogic(LaunchTraySlotData data)
         {
@@ -21,21 +20,24 @@ namespace Blast.Core.Logic
         }
         public void AssignShooter(ShooterLogic shooterLogic, float arrivalDuration)
         {
-            _data.ShooterLogic = shooterLogic;
-            _data.IsAvailable = false;
+            ShooterLogic = shooterLogic;
+
+            _data.AssignedShooterId = shooterLogic.Id;
+
             _data.HasArrived = false;
 
             //Tick için yeni
             _data.arrivalDuration = arrivalDuration;
             _data.arrivalElapsed = 0f;
             _data.ArrivalProgress = 0f;
-
-            _data.ShooterLogic.Depleted += OnShooterDepleted;
+            ShooterLogic.Depleted += OnShooterDepleted;
         }
 
+
+        // Shooter'in slota yerleþme surecini yonetir.
         public void Tick(float dt)
         {
-            if (_data.HasArrived || _data.IsAvailable) return;
+            if (_data.HasArrived || _data.IsEmpty) return;
 
             _data.arrivalElapsed += dt;
             _data.ArrivalProgress = Math.Clamp(_data.arrivalElapsed / _data.arrivalDuration, 0f, 1f);
@@ -44,20 +46,25 @@ namespace Blast.Core.Logic
             {
                 _data.HasArrived = true;
             }
-            
         }
 
 
         private void OnShooterDepleted()
         {
-            _data.ShooterLogic.Depleted -= OnShooterDepleted;
             Clear();
         }
 
         public void Clear()
         {
-            _data.ShooterLogic = null;
-            _data.IsAvailable = true;
+
+            if (ShooterLogic != null)
+            {
+                ShooterLogic.Depleted -= OnShooterDepleted;
+            }
+
+            ShooterLogic = null;
+            _data.AssignedShooterId = null;
+
             _data.HasArrived = false;
             _data.ArrivalProgress = 0f;
             _data.arrivalElapsed = 0f;

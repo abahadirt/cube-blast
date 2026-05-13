@@ -1,11 +1,12 @@
-using Blast.Core.Data;
-using Blast.Core.Logic;
+using Blast.Core.Event;
 using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
     public class GameplayLogic
     {
+        private readonly GameEventQueue _eventQueue;
+
         private BoardLogic _boardLogic;
         private LaunchTrayLogic _launchTrayLogic;
         private ShooterReserveLogic _shooterReserveLogic;
@@ -14,72 +15,49 @@ namespace Blast.Core.Logic
        
         private FireCoordinator _fireCoordinator;
 
-        public void InitializeGameplayLogic
-            (BoardLogic boardLogic, 
-            LaunchTrayLogic launchTraylogic, 
-            ShooterReserveLogic shooterReserveLogic, 
+        public GameplayLogic
+            (BoardLogic boardLogic,
+            LaunchTrayLogic launchTraylogic,
+            ShooterReserveLogic shooterReserveLogic,
             TargetSelector targetSelector,
-            FireCoordinator fireCoordinator)
+            FireCoordinator fireCoordinator,
+            GameEventQueue eventQueue)
         {
             _boardLogic = boardLogic;
             _launchTrayLogic = launchTraylogic;
             _shooterReserveLogic = shooterReserveLogic;
             _targetSelector = targetSelector;
             _fireCoordinator = fireCoordinator;
+            _eventQueue = eventQueue;
         }
+
 
 
         public void SendShooterToLaunchTray(int columnIndex)
         {
-            if (!_launchTrayLogic.HasSpace()) return;
-
-            if (columnIndex == -1) return;
+            if (columnIndex == -1 || !_launchTrayLogic.HasSpace()) return;
 
             ShooterLogic shooter = _shooterReserveLogic.GetNextShooter(columnIndex);
 
-            if (shooter != null)
-            {
-                _launchTrayLogic.AddShooter(shooter);
-            }
+            if (shooter == null) return;
+
+            int slotIndex = _launchTrayLogic.AddShooter(shooter);
+
+            float duration = _launchTrayLogic.slotLogics[slotIndex].ArrivalDuration;
+
+            _eventQueue.Enqueue(new ShooterSentEvent(shooter.Id, slotIndex, columnIndex, duration));
         }
+
+
         public void Tick(float deltaTime)
         {
-            
+            // TODO[P1] : mergeResults artik kullanýlmýyor. -> bakilacak.
             List<MergeResult> mergeResults = _launchTrayLogic.Tick(deltaTime);
             _fireCoordinator.Tick(deltaTime);
            
         }
 
 
-
-
-
     }
 }
 
-
-/* 
-// Initialize BOARD LOGIC
-            //board logic'e col ve row vermeye gerek yok.
-            // gridrow da vermeye gerek yok direkt 2d array verebiliriz,
-            // gridrow 2d array dönüþümü baþka yerde yapýlýr
-            //
-int tempcolumns = 7;
-int temptotalRows = 6;
-GridRow[] tempgridrows = new GridRow[temptotalRows];
-_boardLogic = new BoardLogic(tempcolumns, temptotalRows, tempgridrows);
-
-// Initialize LAUNCH TRAY LOGIC
-int tempcapacity = 5;
-_launchTrayLogic = new LaunchTrayLogic(tempcapacity);
-
-// Initialize SHOOTER RESERVE LOGIC
-List<ReserveColumnData> tempreserveColumns = new List<ReserveColumnData>();
-_shooterReserveLogic = new ShooterReserveLogic(tempreserveColumns);
-
-// Initialize FIRE COORDINATOR LOGIC
-_targetSelector = new TargetSelector(_boardLogic);
-
-// Initialize FIRE COORDINATOR LOGIC
-_fireCoordinator = new FireCoordinator(_targetSelector, _launchTrayLogic);
-*/

@@ -14,9 +14,10 @@ namespace Blast.Core.Logic
         private int[] _columnBottom;
         private int[] _columnTop;
 
-        //public void Initialize(int columns, int totalRows, GridRow[] rows, TargetSelector targetSelector)
+        //TODO[P99] : int columns, int totalRow tam dolu olmayan boardlar icin test edilecek.
         public BoardLogic(int columns, int totalRows, GridRow[] rows)
         {
+
             Columns = columns;
             TotalRows = totalRows;
 
@@ -24,8 +25,6 @@ namespace Blast.Core.Logic
             _columnBottom = new int[columns];
             _columnTop = new int[columns];
 
-            //YENI:
-            //_targetSelector = targetSelector;
 
             for (int row = 0; row < totalRows; row++)
                 for (int col = 0; col < columns; col++)
@@ -61,26 +60,39 @@ namespace Blast.Core.Logic
         {
             return _gridData[dataRow, col];
         }
-        /*yeni
-         
-        public int RequestShot(CubeColor color)
-        {
-            TargetResult result = _targetSelector.FindTarget(color);
-            if (!result.HasTarget) return -1;
-
-            LogicalHit(result.Column); // pre-emptive hit
-
-
-            return result.Column;
-        }
-        */
-
-
 
         /*
-        public void SetDataAt(int dataRow, int col, CubeColor color)
+        public CubeData GetTopDataAtCol(int col)
         {
-            _gridData[dataRow, col] = color;
-        }*/
+            if (GetColumnHeight(col) == 0) return null;
+            return GetDataAt(,col)
+
+        }
+        */
+ 
     }
 }
+
+
+
+/*yeni
+
+ public int RequestShot(CubeColor color)
+ {
+     TargetResult result = _targetSelector.FindTarget(color);
+     if (!result.HasTarget) return -1;
+
+     LogicalHit(result.Column); // pre-emptive hit
+
+
+     return result.Column;
+ }
+ */
+
+
+
+/*
+public void SetDataAt(int dataRow, int col, CubeColor color)
+{
+    _gridData[dataRow, col] = color;
+}*/

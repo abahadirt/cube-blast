@@ -18,6 +18,9 @@ namespace Blast.Test
 
         // ShooterReserveLogic için
         public List<ReserveColumnData> reserveColumns { get; set; }
+
+        public int visibleRows { get; set; }
+        
     }
 
 

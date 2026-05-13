@@ -1,0 +1,186 @@
+{
+  "columns": 10,
+  "totalRows": 20,
+  "rows": [
+    {
+      "colors":["Red","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Blue","Red"]
+    },
+    {
+      "colors":["Blue","Red","Green","Green","Green","Green","Green","Green","Red","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Red","Blue","Blue","Blue","Blue","Red","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Blue","Red","Blue","Blue","Red","Blue","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Blue","Blue","Red","Red","Blue","Blue","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Blue","Blue","Red","Red","Blue","Blue","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Blue","Red","Blue","Blue","Red","Blue","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Green","Red","Blue","Blue","Blue","Blue","Red","Green","Blue"]
+    },
+    {
+      "colors":["Blue","Red","Green","Green","Green","Green","Green","Green","Red","Blue"]
+    },
+    {
+      "colors":["Red","Blue","Blue","Blue","Blue","Green","Blue","Blue","Blue","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Yellow","Yellow","Green","Yellow","Yellow","Yellow","Yellow","Red"]
+    },
+    {
+      "colors":["Yellow","Red","Green","Green","Green","Green","Green","Green","Red","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Red","Yellow","Yellow","Yellow","Yellow","Red","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Yellow","Red","Yellow","Yellow","Red","Yellow","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Yellow","Yellow","Red","Red","Yellow","Yellow","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Yellow","Yellow","Red","Red","Yellow","Yellow","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Yellow","Red","Yellow","Yellow","Red","Yellow","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Green","Red","Yellow","Yellow","Yellow","Yellow","Red","Green","Yellow"]
+    },
+    {
+      "colors":["Yellow","Red","Green","Green","Green","Green","Green","Green","Red","Yellow"]
+    },
+    {
+      "colors":["Red","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Red"]
+    }
+  ],
+  "launchTrayCapacity": 5,
+  "reserveColumns": [
+    {
+      "shooters": [
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 2
+        },
+        {
+          "color": "Red",
+          "ammo": 2
+        },
+        {
+          "color": "Green",
+          "ammo": 2
+        },
+        {
+          "color": "Blue",
+          "ammo": 2
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 5
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 5
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        }
+      ]
+    }
+  ],
+  "visibleRows": 11
+}

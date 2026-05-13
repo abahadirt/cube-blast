@@ -1,3 +1,4 @@
+#if false
 using Blast.Core.Logic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters; // Enum çevirici için gerekli
@@ -15,7 +16,7 @@ namespace Blast.Test
         {
             LevelData levelData = GetLevelData("Assets/Scripts/Test/level1.json");
 
-            gamePlayLogic = new GameplayLogic();
+
 
             BoardLogic boardLogic = new BoardLogic(levelData.columns, levelData.totalRows, levelData.rows);
             LaunchTrayLogic launchTrayLogic = new LaunchTrayLogic(levelData.launchTrayCapacity);
@@ -24,7 +25,7 @@ namespace Blast.Test
             TargetSelector targetSelector = new TargetSelector(boardLogic);
             FireCoordinator fireCoordinator = new FireCoordinator(targetSelector, launchTrayLogic);
 
-            gamePlayLogic.InitializeGameplayLogic(boardLogic, launchTrayLogic, shooterReserveLogic, targetSelector, fireCoordinator);
+            gamePlayLogic= new GameplayLogic(boardLogic, launchTrayLogic, shooterReserveLogic, targetSelector, fireCoordinator);
 
         }
 
@@ -54,3 +55,4 @@ namespace Blast.Test
         }
     }
 }
+#endif

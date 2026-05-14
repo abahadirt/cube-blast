@@ -1,8 +1,8 @@
 using Blast.Core.Data;
 using Blast.Core.Event;
 using Blast.Core.Logic;
-using Blast.GamePresentation.Input;
 using Blast.GamePresentation.Presenter;
+using Blast.GameUnity.Input;
 using Blast.GameUnity.View;
 using Blast.GameUnity.Registry;
 

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using Blast.GameUnity.View;
 
 using System;
-namespace Blast.GamePresentation.Input
+namespace Blast.GameUnity.Input
 {
     public class InputHandler : MonoBehaviour
     {

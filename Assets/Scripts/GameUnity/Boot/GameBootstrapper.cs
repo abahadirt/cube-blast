@@ -11,10 +11,8 @@ using Blast.Test;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 namespace Blast.GameUnity.Boot
 {

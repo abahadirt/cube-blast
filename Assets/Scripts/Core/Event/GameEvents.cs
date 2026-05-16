@@ -1,6 +1,5 @@
 using Blast.Core.Data;
 using System.Collections.Generic;
-using System.Linq;
 
 // Boxing muhabbetinden struct yerine class kullanýldý.
 // Poola geçilirse en avantajlýsý class oluyor: no GC, no boxing...

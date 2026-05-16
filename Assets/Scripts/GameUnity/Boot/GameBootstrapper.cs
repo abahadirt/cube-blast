@@ -31,7 +31,7 @@ namespace Blast.GameUnity.Boot
         [SerializeField] private LaunchTrayView _trayView;
 
 
-        [SerializeField] private ProjectileService _projectileService;
+        [SerializeField] private ProjectileLauncher _projectileLauncher;
 
 
 
@@ -80,7 +80,7 @@ namespace Blast.GameUnity.Boot
             var reservePresenter = new ShooterReservePresenter(reserveLogic, _reserveView);
             var launchTrayPresenter = new LaunchTrayPresenter(trayLogic, _trayView);
            
-            _gameplayPresenter = new GamePresenter(gameplayLogic, boardPresenter, reservePresenter, launchTrayPresenter, eventQueue, _projectileService);
+            _gameplayPresenter = new GamePresenter(gameplayLogic, boardPresenter, reservePresenter, launchTrayPresenter, eventQueue, _projectileLauncher);
             _inputHandler.OnColumnTapped += _gameplayPresenter.TrySendShooter;
             // --- Baþlat ---
             _gameplayPresenter.Initialize();

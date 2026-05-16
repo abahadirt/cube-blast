@@ -1,6 +1,6 @@
 using Blast.Core.Event;
 using Blast.Core.Logic;
-using Blast.GameUnity; //TODO[P0] : test için kullanýlýyor, çýkarýlacak
+using Blast.GamePresentation.Contract;
 
 
 
@@ -15,19 +15,19 @@ namespace Blast.GamePresentation.Presenter
         private readonly ShooterReservePresenter _reservePresenter;
         private readonly LaunchTrayPresenter _launchTrayPresenter;
         
-        private readonly ProjectileService _projectileService;
+        private readonly IProjectileLauncher _projectileLauncher;
 
         public GamePresenter(
             GameplayLogic gameplayLogic, BoardPresenter boardPresenter, ShooterReservePresenter reservePresenter, LaunchTrayPresenter launchTrayPresenter,
-            GameEventQueue eventQueue, 
-            ProjectileService projectileService)
+            GameEventQueue eventQueue,
+            IProjectileLauncher projectileLauncher)
         {
             _gameplayLogic = gameplayLogic;
             _boardPresenter = boardPresenter;
             _reservePresenter = reservePresenter;
             _launchTrayPresenter = launchTrayPresenter;
             _eventQueue = eventQueue;
-            _projectileService = projectileService;
+            _projectileLauncher = projectileLauncher;
         }
 
         public void Initialize()
@@ -69,7 +69,7 @@ namespace Blast.GamePresentation.Presenter
                     case ShooterFiredEvent e:
                         _launchTrayPresenter.TempResolveShooterFired(e.ShooterId, e.RemainingAmmo);
                         _boardPresenter.EnqueueHit(e.TargetColumn, e.TargetLogicalRow);
-                        _projectileService.FireFromTrayToBoard(e.Color, e.SlotIndex,e.TargetColumn,
+                        _projectileLauncher.FireFromTrayToBoard(e.Color, e.SlotIndex,e.TargetColumn,
                             onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));
                         // _launchTrayPresenter.PlayFireAnimation(...)
                         //UnityEngine.Debug.Log($"ShooterFiredEvent iþlendi: ShooterId={e.ShooterId}, Color={e.Color},TargetColumnIndex={e.TargetColumn}");

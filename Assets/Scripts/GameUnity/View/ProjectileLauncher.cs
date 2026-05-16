@@ -1,12 +1,11 @@
 using System;
 using Blast.Core.Data;
 using Blast.GameUnity.Pool;
-using Blast.GameUnity.View;
 using UnityEngine;
-
-namespace Blast.GameUnity
+using Blast.GamePresentation.Contract;
+namespace Blast.GameUnity.View
 {
-    public class ProjectileService : MonoBehaviour
+    public class ProjectileLauncher : MonoBehaviour, IProjectileLauncher
     {
         [SerializeField] private ProjectileViewPool _pool;
         [SerializeField] private BoardView _boardView;

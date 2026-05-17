@@ -1,7 +1,7 @@
 using Blast.Core.Data;
 using Blast.Core.Event;
 using System.Collections.Generic;
-
+using Blast.Logging;
 namespace Blast.Core.Logic
 {
     
@@ -151,7 +151,7 @@ namespace Blast.Core.Logic
 
                 if (results == null)
                     results = new List<MergeResult>();
-                UnityEngine.Debug.Log($"[LAUNCHTRAYLOGIC] Merge oldu! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
+                Log.Info(nameof(LaunchTrayLogic), $"Merge oldu! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
                 _eventQueue.Enqueue(new ShootersMergedEvent(survivorShooterId, consumedShooterIds, slotLogics[survivorIndex].ShooterLogic.Ammo));
 
                 results.Add(new MergeResult

@@ -1,7 +1,7 @@
 using Blast.Core.Event;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
-
+using Blast.Logging;
 
 
 namespace Blast.GamePresentation.Presenter
@@ -59,34 +59,24 @@ namespace Blast.GamePresentation.Presenter
                     case ShooterSentEvent e:
                         _reservePresenter.ReleaseShooter(e.SourceColumnIndex);
                         _launchTrayPresenter.ReceiveShooter(e.ShooterId, e.TargetSlotIndex, e.ArrivalDuration);
-                        UnityEngine.Debug.Log($"ShooterSentEvent iþlendi: ShooterId={e.ShooterId}, TargetSlotIndex={e.TargetSlotIndex}, ArrivalDuration={e.ArrivalDuration}");
+                        Log.Info(nameof(GamePresenter), $"ShooterSentEvent iþlendi: ShooterId={e.ShooterId}, TargetSlotIndex={e.TargetSlotIndex}, ArrivalDuration={e.ArrivalDuration}");
                         break;
 
                     case ShootersMergedEvent e:
                         _launchTrayPresenter.MergeShooters(e.SurvivorShooterId, e.ConsumedShooterIds, e.TotalAmmo);
-                        UnityEngine.Debug.Log($"ShootersMergedEvent iþlendi: SurvivorShooterId={e.SurvivorShooterId}, ConsumedShooterIds=[{string.Join(", ", e.ConsumedShooterIds)}], TotalAmmo={e.TotalAmmo}");
+                        Log.Info(nameof(GamePresenter), $"ShootersMergedEvent iþlendi: SurvivorShooterId={e.SurvivorShooterId}, ConsumedShooterIds=[{string.Join(", ", e.ConsumedShooterIds)}], TotalAmmo={e.TotalAmmo}");
                         break;
                     case ShooterFiredEvent e:
                         _launchTrayPresenter.TempResolveShooterFired(e.ShooterId, e.RemainingAmmo);
                         _boardPresenter.EnqueueHit(e.TargetColumn, e.TargetLogicalRow);
                         _projectileLauncher.FireFromTrayToBoard(e.Color, e.SlotIndex,e.TargetColumn,
-                            onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));
-                        // _launchTrayPresenter.PlayFireAnimation(...)
-                        //UnityEngine.Debug.Log($"ShooterFiredEvent iþlendi: ShooterId={e.ShooterId}, Color={e.Color},TargetColumnIndex={e.TargetColumn}");
+                            onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));       
                         break;
-                    /*
-                    case CubeHitEvent e:
-                        //_boardPresenter.ResolveHit(e.Column, e.DestroyedLogicalRow);
-                        // _boardPresenter.PlayCubeDestroyAnimation(e.Column, e.HitRow);
-                        //UnityEngine.Debug.Log($"CubeHitEvent iþlendi: Column={e.Column}, DestroyedLogicalRow={e.DestroyedLogicalRow}, IsDestroyed={e.IsDestroyed}");
-                        break;
-                    */
                     case null:
-                        UnityEngine.Debug.LogWarning("Kuyruktan NULL bir event çýktý! Logic katmanýnda bir hata olabilir.");
+                        Log.Warn(nameof(GamePresenter), "Kuyruktan NULL bir event çýktý!");
                         break;
-
                     default:
-                        UnityEngine.Debug.LogWarning($"Tanýmlanmamýþ bir event yakalandý: {gameEvent.GetType().Name}");
+                        Log.Warn(nameof(GamePresenter), $"Tanýmlanmamýþ bir event yakalandý: {gameEvent.GetType().Name}");
                         break;
                 }
             }

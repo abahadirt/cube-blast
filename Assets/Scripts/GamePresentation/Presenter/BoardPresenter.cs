@@ -2,8 +2,7 @@
 using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
 using System.Collections.Generic;
-
-using UnityEngine; //TODO[P0] : test için kullanılıyor, çıkarılacak
+using Blast.Logging;
 
 namespace Blast.GamePresentation.Presenter
 {
@@ -72,9 +71,9 @@ namespace Blast.GamePresentation.Presenter
             var queue = _pendingHitsPerColumn[column];
             if (queue.Count == 0)
             {
-                Debug.LogWarning(
-                    $"[BoardPresenter] col {column} projectile arrived, pending hit yok. " +
-                    $"EnqueueHit ile OnProjectileArrived senkron değil.");
+                Log.Warn(nameof(BoardPresenter), $"col {column} projectile arrived, pending hit yok." +
+                    "EnqueueHit ile OnProjectileArrived senkron değil.");
+
                 return;
             }
 
@@ -84,7 +83,8 @@ namespace Blast.GamePresentation.Presenter
         private void ResolveHitInternal(int column, int hitLogicalRow)
         {
             int newTopDataRow = hitLogicalRow + _visibleRows;
-            Debug.Log($"[AAAAAAAAAAAAAAAAAAAAAA] ResolveHIT: {column}, hitLogicalRow: {hitLogicalRow}, newTopDataRow: {newTopDataRow}");
+            Log.Info(nameof(BoardPresenter), $"ResolveHIT: {column}, hitLogicalRow: {hitLogicalRow}, newTopDataRow: {newTopDataRow}");
+
             CubeColor? newTopColor = newTopDataRow < _board.GetColumnTop(column)
                 ? _board.GetDataAt(newTopDataRow, column).Color
                 : (CubeColor?)null;

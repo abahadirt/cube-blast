@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Blast.Core.Data;
-
-using UnityEngine; //TODO[P0] : test için kullanýlýyor, çýkarýlacak
+using Blast.Logging;
 
 namespace Blast.Core.Logic
 {
@@ -18,11 +17,12 @@ namespace Blast.Core.Logic
         private void InitializeFromLevelData(List<ReserveColumnData> reserveColumnsData)
         {
             _reserveColumns = new List<List<ShooterLogic>>(reserveColumnsData.Count);
-            Debug.Log($"[ShooterReserveLogic] Initializing columns in reserve logic with {reserveColumnsData.Count} columns from level data.");
+            Log.Info(nameof(ShooterReserveLogic), $"Initializing columns in reserve logic with {reserveColumnsData.Count} columns from level data.");
+
             foreach (var columnData in reserveColumnsData)
             {
                 var columnQueue = new List<ShooterLogic>(columnData.shooters.Count);
-                Debug.Log($"[ShooterReserveLogic] Initializing shooter column with {columnData.shooters.Count} shooters.");
+                Log.Info(nameof(ShooterReserveLogic), $"Initializing shooter column with {columnData.shooters.Count} shooters.");
                 foreach (var shooterData in columnData.shooters)
                 {
                     var shooter = new ShooterLogic(GenerateShooterId(), shooterData.color, shooterData.ammo);

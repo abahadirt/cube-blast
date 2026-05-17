@@ -3,17 +3,16 @@ using Blast.Core.Event;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;
-using Blast.GameUnity.View;
+using Blast.GameUnity.Logging;
 using Blast.GameUnity.Registry;
-
+using Blast.GameUnity.View;
 using Blast.Test;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.IO;
 using UnityEngine;
-
+using Blast.Logging;
 namespace Blast.GameUnity.Boot
 {
     public class GameBootstrapper : MonoBehaviour
@@ -41,6 +40,8 @@ namespace Blast.GameUnity.Boot
 
         private void Awake()
         {
+            Log.Configure(new UnityLogger());
+
             ShooterViewRegistry registry = new ShooterViewRegistry();
             _reserveView.Construct(registry);
             _trayView.Construct(registry);

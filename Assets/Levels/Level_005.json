@@ -1,0 +1,73 @@
+{
+  "columns": 5,
+  "totalRows": 5,
+  "rows": [
+    {
+      "colors":["Red","Red","Red","Red","Red"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red"]
+    }
+  ],
+  "launchTrayCapacity": 5,
+  "reserveColumns": [
+    {
+      "shooters": [
+        {
+          "color": "Red",
+          "ammo": 10
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Red",
+          "ammo": 10
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Red",
+          "ammo": 10
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        }
+      ]
+    }
+  ],
+  "visibleRows": 5
+}

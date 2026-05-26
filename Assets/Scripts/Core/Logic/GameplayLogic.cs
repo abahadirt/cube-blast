@@ -7,6 +7,8 @@ namespace Blast.Core.Logic
     {
         private readonly GameEventQueue _eventQueue;
 
+        private LevelConditionEvaluator _levelConditionEvaluator;
+
         private BoardLogic _boardLogic;
         private LaunchTrayLogic _launchTrayLogic;
         private ShooterReserveLogic _shooterReserveLogic;
@@ -21,7 +23,8 @@ namespace Blast.Core.Logic
             ShooterReserveLogic shooterReserveLogic,
             TargetSelector targetSelector,
             FireCoordinator fireCoordinator,
-            GameEventQueue eventQueue)
+            GameEventQueue eventQueue,
+            LevelConditionEvaluator levelConditionEvaluator)
         {
             _boardLogic = boardLogic;
             _launchTrayLogic = launchTraylogic;
@@ -29,6 +32,7 @@ namespace Blast.Core.Logic
             _targetSelector = targetSelector;
             _fireCoordinator = fireCoordinator;
             _eventQueue = eventQueue;
+            _levelConditionEvaluator = levelConditionEvaluator;
         }
 
 
@@ -51,6 +55,7 @@ namespace Blast.Core.Logic
 
         public void Tick(float deltaTime)
         {
+            _levelConditionEvaluator.Evaluate();
             // TODO[P1] : mergeResults artik kullanýlmýyor. -> bakilacak.
             List<MergeResult> mergeResults = _launchTrayLogic.Tick(deltaTime);
             _fireCoordinator.Tick(deltaTime);

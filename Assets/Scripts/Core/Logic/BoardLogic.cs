@@ -61,15 +61,19 @@ namespace Blast.Core.Logic
             return _gridData[dataRow, col];
         }
 
-        /*
-        public CubeData GetTopDataAtCol(int col)
+        public bool IsCleared()
         {
-            if (GetColumnHeight(col) == 0) return null;
-            return GetDataAt(,col)
-
+            for (int col = 0; col < Columns; col++)
+                if (GetColumnHeight(col) > 0) return false;
+            return true;
         }
-        */
- 
+        public bool HasAnyValidTarget(CubeColor color)
+        {
+            for (int col = 0; col < Columns; col++)
+                if (HasValidTarget(col, color)) return true;
+            return false;
+        }
+
     }
 }
 
@@ -96,3 +100,13 @@ public void SetDataAt(int dataRow, int col, CubeColor color)
 {
     _gridData[dataRow, col] = color;
 }*/
+
+
+/*
+public CubeData GetTopDataAtCol(int col)
+{
+    if (GetColumnHeight(col) == 0) return null;
+    return GetDataAt(,col)
+
+}
+*/

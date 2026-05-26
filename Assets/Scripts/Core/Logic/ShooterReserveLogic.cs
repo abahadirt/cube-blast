@@ -69,6 +69,12 @@ namespace Blast.Core.Logic
             return initialState;
 
         }
+        public bool IsEmpty()
+        {
+            for (int i = 0; i < _reserveColumns.Count; i++)
+                if (_reserveColumns[i].Count > 0) return false;
+            return true;
+        }
 
     }
 }

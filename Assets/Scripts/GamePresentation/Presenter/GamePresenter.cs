@@ -72,6 +72,12 @@ namespace Blast.GamePresentation.Presenter
                         _projectileLauncher.FireFromTrayToBoard(e.Color, e.SlotIndex,e.TargetColumn,
                             onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));       
                         break;
+                    case LevelCompletedEvent _:
+                        Log.Info(nameof(GamePresenter), "LevelCompletedEvent iþlendi: Seviye tamamlandý!");
+                        break;
+                    case LevelFailedEvent _:
+                        Log.Info(nameof(GamePresenter), "LevelFailedEvent iþlendi: Seviye baþarýsýz oldu!");
+                        break;
                     case null:
                         Log.Warn(nameof(GamePresenter), "Kuyruktan NULL bir event çýktý!");
                         break;

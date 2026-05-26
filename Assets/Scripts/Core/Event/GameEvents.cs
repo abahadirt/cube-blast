@@ -81,6 +81,14 @@ namespace Blast.Core.Event
         }
     }
 
+    public class LevelCompletedEvent : IGameEvent { }
+
+    public class LevelFailedEvent : IGameEvent { }
+    
+    
+
+
+
 
 
 }

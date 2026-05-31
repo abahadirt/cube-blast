@@ -1,0 +1,17 @@
+{
+    "name": "Blast.GamePresentation",
+    "rootNamespace": "Blast.GamePresentation",
+    "references": [
+        "Blast.Core",
+        "Blast.Logging"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

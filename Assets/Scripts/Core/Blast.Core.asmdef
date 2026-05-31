@@ -1,0 +1,16 @@
+{
+    "name": "Blast.Core",
+    "rootNamespace": "Blast.Core",
+    "references": [
+        "Blast.Logging"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

@@ -1,0 +1,23 @@
+{
+    "name": "Blast.GameUnity",
+    "rootNamespace": "Blast.GameUnity",
+    "references": [
+        "Blast.Core",
+        "Blast.GamePresentation",
+        "Blast.Logging",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Blast.Level"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "DOTween.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

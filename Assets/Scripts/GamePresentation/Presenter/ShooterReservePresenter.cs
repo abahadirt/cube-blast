@@ -6,7 +6,6 @@ namespace Blast.GamePresentation.Presenter
     public class ShooterReservePresenter
     {
 
-        private readonly GameplayLogic _gameplayLogic;
         private readonly ShooterReserveLogic _logic;
         private readonly IShooterReserveView _view;
 

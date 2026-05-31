@@ -7,7 +7,8 @@
         "Blast.Logging",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Blast.Level"
+        "Blast.Level",
+        "UnityEngine.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -2,12 +2,16 @@ using Blast.Core.Event;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
 using Blast.Logging;
-
+using System;
 
 namespace Blast.GamePresentation.Presenter
 {
     public class GamePresenter
     {
+        
+        public event Action LevelCompleted;
+        public event Action LevelFailed;
+
         private readonly GameplayLogic _gameplayLogic;
         private readonly GameEventQueue _eventQueue;
 
@@ -74,9 +78,11 @@ namespace Blast.GamePresentation.Presenter
                         break;
                     case LevelCompletedEvent _:
                         Log.Info(nameof(GamePresenter), "LevelCompletedEvent iþlendi: Seviye tamamlandý!");
+                        LevelCompleted?.Invoke();
                         break;
                     case LevelFailedEvent _:
                         Log.Info(nameof(GamePresenter), "LevelFailedEvent iþlendi: Seviye baþarýsýz oldu!");
+                        LevelFailed?.Invoke();
                         break;
                     case null:
                         Log.Warn(nameof(GamePresenter), "Kuyruktan NULL bir event çýktý!");

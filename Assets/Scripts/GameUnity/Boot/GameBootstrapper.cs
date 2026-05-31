@@ -1,140 +1,111 @@
-using Blast.Core.Data;
-using Blast.Core.Event;
+ï»¿using Blast.Core.Event;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;
+using Blast.GameUnity.Level;
 using Blast.GameUnity.Logging;
 using Blast.GameUnity.Registry;
+using Blast.GameUnity.UI;
 using Blast.GameUnity.View;
-using Blast.Test;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.IO;
-using UnityEngine;
+using Blast.Level;
 using Blast.Logging;
+using UnityEngine;
+
 namespace Blast.GameUnity.Boot
 {
+    /// <summary>
+    /// Composition root: builds the object graph for a single level and owns the
+    /// per-frame Update loop. It only WIRES dependencies; runtime flow (win/lose,
+    /// level transitions) lives in GameFlowController. Scene-scoped: a scene reload
+    /// destroys and rebuilds everything created here.
+    /// </summary>
     public class GameBootstrapper : MonoBehaviour
     {
         [Header("Level Setup")]
-        [SerializeField] private TextAsset _levelJsonFile;
-
-
+        [SerializeField] private LevelCatalog _levelCatalog;
+        [SerializeField] private LevelEndView _levelEndView;
 
         [Header("Views")]
         [SerializeField] private BoardView _boardView;
         [SerializeField] private ShooterReserveView _reserveView;
         [SerializeField] private LaunchTrayView _trayView;
-
-
         [SerializeField] private ProjectileLauncher _projectileLauncher;
-
-
-
-
 
         [SerializeField] private InputHandler _inputHandler;
 
         private GamePresenter _gameplayPresenter;
+        private GameFlowController _flow;
 
         private void Awake()
         {
             Log.Configure(new UnityLogger());
 
+            int levelIndex = ResolveStartIndex();
+            LevelData levelData = LevelParser.Parse(_levelCatalog.Get(levelIndex).text);
+
             ShooterViewRegistry registry = new ShooterViewRegistry();
             _reserveView.Construct(registry);
             _trayView.Construct(registry);
 
-
-
-
-            LevelData levelData = ParseLevelData(_levelJsonFile.text);
-
-            // --- Level data (geçici; sonra ScriptableObject'ten gelecek) ---
+            // --- Level data ---
             var rows = levelData.rows;
             var totalRows = levelData.totalRows;
             var columns = levelData.columns;
-
             var reserveColumns = levelData.reserveColumns;
             var launchTrayCapacity = levelData.launchTrayCapacity;
             var visibleRows = levelData.visibleRows;
 
-
             // --- Event ---
             var eventQueue = new GameEventQueue();
 
-
-            // --- Logic katmaný ---
+            // --- Logic layer ---
             var boardLogic = new BoardLogic(columns, totalRows, rows);
             var trayLogic = new LaunchTrayLogic(launchTrayCapacity, eventQueue);
             var reserveLogic = new ShooterReserveLogic(reserveColumns);
-
             var targetSelector = new TargetSelector(boardLogic);
             var fireCoord = new FireCoordinator(targetSelector, trayLogic, eventQueue);
             var levelConditionEvaluator = new LevelConditionEvaluator(boardLogic, trayLogic, reserveLogic, eventQueue);
             var gameplayLogic = new GameplayLogic(boardLogic, trayLogic, reserveLogic, targetSelector, fireCoord, eventQueue, levelConditionEvaluator);
 
-
-            // --- Presenter katmaný ---
+            // --- Presenter layer ---
             var boardPresenter = new BoardPresenter(boardLogic, _boardView, visibleRows);
             var reservePresenter = new ShooterReservePresenter(reserveLogic, _reserveView);
             var launchTrayPresenter = new LaunchTrayPresenter(trayLogic, _trayView);
-           
             _gameplayPresenter = new GamePresenter(gameplayLogic, boardPresenter, reservePresenter, launchTrayPresenter, eventQueue, _projectileLauncher);
+
+
             _inputHandler.OnColumnTapped += _gameplayPresenter.TrySendShooter;
-            // --- Baþlat ---
+
+            _flow = new GameFlowController(_gameplayPresenter, _levelCatalog, _levelEndView, _inputHandler, levelIndex);
+
             _gameplayPresenter.Initialize();
         }
 
         private void Update()
         {
-            _gameplayPresenter.Tick(Time.deltaTime);
+            _flow.Tick(Time.deltaTime);
         }
 
-
-
-        public LevelData ParseLevelData(string jsonString)
+        private int ResolveStartIndex()
         {
-            if (string.IsNullOrEmpty(jsonString))
+            int index = LevelProgress.CurrentIndex;
+            if (!_levelCatalog.IsValidIndex(index)) // end of catalog / corrupt index -> wrap to start
             {
-                throw new Exception("JSON metni boþ olamaz!");
+                index = 0;
+                LevelProgress.CurrentIndex = 0;
             }
-
-            var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new StringEnumConverter());
-
-            LevelData levelData = JsonConvert.DeserializeObject<LevelData>(jsonString, settings);
-
-            Array.Reverse(levelData.rows);
-            return levelData;
+            return index;
         }
 
-
-
-
-        public LevelData GetLevelDataFromPath(string filePath)
+        private void OnDestroy()
         {
-            // 1. Dosyanýn var olup olmadýðýný kontrol ediyoruz
-            if (!File.Exists(filePath))
-            {
-                // Dosya yoksa duruma göre null dönebilir veya bir hata (exception) fýrlatabilirsiniz.
-                throw new FileNotFoundException($"JSON dosyasý bulunamadý. Lütfen yolu kontrol edin: {filePath}");
-            }
+            // Symmetric teardown: pair every subscription made in Awake.
+            // Safe-by-scene-scope today, but explicit so it stays correct if anything
+            // ever outlives the scene (e.g. a DontDestroyOnLoad service).
+            if (_inputHandler != null && _gameplayPresenter != null)
+                _inputHandler.OnColumnTapped -= _gameplayPresenter.TrySendShooter;
 
-            // 2. Dosyadaki tüm metni bir string olarak okuyoruz
-            string jsonString = File.ReadAllText(filePath);
-
-            // 3. Enum'larý ("Red", "Blue") string olarak okuyabilmesi için Newtonsoft ayarý
-            var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new StringEnumConverter());
-
-            // 4. JSON'ý C# objesine çeviriyoruz (Newtonsoft yöntemi)
-            LevelData levelData = JsonConvert.DeserializeObject<LevelData>(jsonString, settings);
-
-            Array.Reverse(levelData.rows); // jsondaki görüntüyle logicte görüntü ayný olsun diye rowslarý ters çeviriyoruz
-            return levelData;
+            _flow?.Dispose();
         }
-
     }
 }

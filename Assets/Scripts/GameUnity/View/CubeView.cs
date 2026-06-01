@@ -17,7 +17,7 @@ namespace Blast.GameUnity.View
 
         public void SetColor(Color color)
         {
-            // Awake'ten önce çaðrý gelirse fallback
+            // Awake'ten Ã¶nce Ã§aÄŸrÄ± gelirse fallback
             if (_spriteRenderer == null)
                 _spriteRenderer = GetComponent<SpriteRenderer>();
 

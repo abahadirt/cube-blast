@@ -8,7 +8,7 @@ namespace Blast.Core.Data
         public bool IsActive { get;  set; }
         public bool IsDepleted { get;  set; }
 
-        public float FireCooldown { get; }              // her atýþtan sonra beklenecek süre
+        public float FireCooldown { get; }              // her atÄ±ÅŸtan sonra beklenecek sÃ¼re
         public float CooldownRemaining { get;  set; }
 
         public ShooterData(int id,CubeColor color, int ammo, float fireCooldown = 0.2f)

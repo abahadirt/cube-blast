@@ -1,4 +1,4 @@
-namespace Blast.Logging
+﻿namespace Blast.Logging
 {
     public static class Log
     {

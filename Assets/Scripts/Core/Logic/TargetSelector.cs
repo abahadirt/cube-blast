@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Blast.Core.Logic
 {
 
-    // farklý küp turleri eklenince ihtiyaç olacak.
+    // farklÄ± kÃ¼p turleri eklenince ihtiyaÃ§ olacak.
     public readonly struct TargetResult
     {
         public readonly bool HasTarget;
@@ -31,7 +31,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P1]: Single Resp. bozuyor, yaklaþým review edilecek, metod isim güncellenebilir.
+        // TODO[P1]: Single Resp. bozuyor, yaklaÅŸÄ±m review edilecek, metod isim gÃ¼ncellenebilir.
         public TargetResult FindTarget(CubeColor color)
         {
             if (!_colorMemory.ContainsKey(color))

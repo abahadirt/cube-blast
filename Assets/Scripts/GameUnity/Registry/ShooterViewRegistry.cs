@@ -5,7 +5,7 @@ using Blast.GameUnity.View;
 namespace Blast.GameUnity.Registry
 {
 
-    // Bu registry, shooterId ile ShooterView arasýnda bir eþleme saðlar.
+    // Bu registry, shooterId ile ShooterView arasÄ±nda bir eÅŸleme saÄŸlar.
     public class ShooterViewRegistry
     {
         private Dictionary<int, ShooterView> _viewsById = new Dictionary<int, ShooterView>();

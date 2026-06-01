@@ -63,12 +63,12 @@ namespace Blast.GamePresentation.Presenter
                     case ShooterSentEvent e:
                         _reservePresenter.ReleaseShooter(e.SourceColumnIndex);
                         _launchTrayPresenter.ReceiveShooter(e.ShooterId, e.TargetSlotIndex, e.ArrivalDuration);
-                        Log.Info(nameof(GamePresenter), $"ShooterSentEvent iþlendi: ShooterId={e.ShooterId}, TargetSlotIndex={e.TargetSlotIndex}, ArrivalDuration={e.ArrivalDuration}");
+                        Log.Info(nameof(GamePresenter), $"ShooterSentEvent iÅŸlendi: ShooterId={e.ShooterId}, TargetSlotIndex={e.TargetSlotIndex}, ArrivalDuration={e.ArrivalDuration}");
                         break;
 
                     case ShootersMergedEvent e:
                         _launchTrayPresenter.MergeShooters(e.SurvivorShooterId, e.ConsumedShooterIds, e.TotalAmmo);
-                        Log.Info(nameof(GamePresenter), $"ShootersMergedEvent iþlendi: SurvivorShooterId={e.SurvivorShooterId}, ConsumedShooterIds=[{string.Join(", ", e.ConsumedShooterIds)}], TotalAmmo={e.TotalAmmo}");
+                        Log.Info(nameof(GamePresenter), $"ShootersMergedEvent iÅŸlendi: SurvivorShooterId={e.SurvivorShooterId}, ConsumedShooterIds=[{string.Join(", ", e.ConsumedShooterIds)}], TotalAmmo={e.TotalAmmo}");
                         break;
                     case ShooterFiredEvent e:
                         _launchTrayPresenter.TempResolveShooterFired(e.ShooterId, e.RemainingAmmo);
@@ -77,18 +77,18 @@ namespace Blast.GamePresentation.Presenter
                             onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));       
                         break;
                     case LevelCompletedEvent _:
-                        Log.Info(nameof(GamePresenter), "LevelCompletedEvent iþlendi: Seviye tamamlandý!");
+                        Log.Info(nameof(GamePresenter), "LevelCompletedEvent iÅŸlendi: Seviye tamamlandÄ±!");
                         LevelCompleted?.Invoke();
                         break;
                     case LevelFailedEvent _:
-                        Log.Info(nameof(GamePresenter), "LevelFailedEvent iþlendi: Seviye baþarýsýz oldu!");
+                        Log.Info(nameof(GamePresenter), "LevelFailedEvent iÅŸlendi: Seviye baÅŸarÄ±sÄ±z oldu!");
                         LevelFailed?.Invoke();
                         break;
                     case null:
-                        Log.Warn(nameof(GamePresenter), "Kuyruktan NULL bir event çýktý!");
+                        Log.Warn(nameof(GamePresenter), "Kuyruktan NULL bir event Ã§Ä±ktÄ±!");
                         break;
                     default:
-                        Log.Warn(nameof(GamePresenter), $"Tanýmlanmamýþ bir event yakalandý: {gameEvent.GetType().Name}");
+                        Log.Warn(nameof(GamePresenter), $"TanÄ±mlanmamÄ±ÅŸ bir event yakalandÄ±: {gameEvent.GetType().Name}");
                         break;
                 }
             }

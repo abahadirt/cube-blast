@@ -26,7 +26,7 @@ namespace Blast.Core.Logic
 
             _data.HasArrived = false;
 
-            //Tick için yeni
+            //Tick iÃ§in yeni
             _data.arrivalDuration = arrivalDuration;
             _data.arrivalElapsed = 0f;
             _data.ArrivalProgress = 0f;
@@ -34,7 +34,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // Shooter'in slota yerleþme surecini yonetir.
+        // Shooter'in slota yerleÅŸme surecini yonetir.
         public void Tick(float dt)
         {
             if (_data.HasArrived || _data.IsEmpty) return;

@@ -32,15 +32,15 @@ namespace Blast.Core.Logic
 
         }
 
-        // nullsa gönderme vs gereksiz ayrýntý...
+        // nullsa gÃ¶nderme vs gereksiz ayrÄ±ntÄ±...
         public List<MergeResult> Tick(float deltaTime)
         {
             for (int i = 0; i < slotLogics.Length; i++)
             {
                 slotLogics[i].Tick(deltaTime);
             }
-            // TODO[P2] : TryMergeAll' early exit eklenecek. local parametre isimleri daha anlaþýlýr yapýlacak. 
-            // TODO[P3] : Her tick'te merge kontrolü yapýyor -> bakýlacak. refactor yaparken mid loop mutation dikkate alýnacak.
+            // TODO[P2] : TryMergeAll' early exit eklenecek. local parametre isimleri daha anlaÅŸÄ±lÄ±r yapÄ±lacak. 
+            // TODO[P3] : Her tick'te merge kontrolÃ¼ yapÄ±yor -> bakÄ±lacak. refactor yaparken mid loop mutation dikkate alÄ±nacak.
             return TryMergeAll(); 
         }
 
@@ -94,7 +94,7 @@ namespace Blast.Core.Logic
         {
             List<MergeResult> results = null;
 
-            // Tray'de hangi renkler arrive olmuþ halde var, onlarý topla
+            // Tray'de hangi renkler arrive olmuÅŸ halde var, onlarÄ± topla
             Dictionary<CubeColor, List<int>> slotsByColor = new Dictionary<CubeColor, List<int>>();
 
             for (int i = 0; i < slotLogics.Length; i++)
@@ -113,7 +113,7 @@ namespace Blast.Core.Logic
             }
 
 
-            // Her renk için merge kontrolü
+            // Her renk iÃ§in merge kontrolÃ¼
             foreach (var kvp in slotsByColor)
             {
                 var matchingSlots = kvp.Value;
@@ -127,7 +127,7 @@ namespace Blast.Core.Logic
                 //AAEVENT
                 List<int> consumedShooterIds = new List<int>();
 
-                // Orijinal kuraldaki gibi: listenin 2. elemaný (index 1) hayatta kalýyor
+                // Orijinal kuraldaki gibi: listenin 2. elemanÄ± (index 1) hayatta kalÄ±yor
                 int survivorIndex = matchingSlots[1];
 
                 //AAEVENT
@@ -168,7 +168,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P2]: çaðrýldýðý yer ve kendisi baþka þekilde ele alýnacak .
+        // TODO[P2]: Ã§aÄŸrÄ±ldÄ±ÄŸÄ± yer ve kendisi baÅŸka ÅŸekilde ele alÄ±nacak .
         public void ActivateAll()
         {
             foreach (var slot in slotLogics)
@@ -204,21 +204,21 @@ namespace Blast.Core.Logic
                 return new MergeResult { IsMerged = false };
             }
 
-            // Orijinal kuraldaki gibi: listendeki 2. eleman (index 1) hayatta kalýyor.
+            // Orijinal kuraldaki gibi: listendeki 2. eleman (index 1) hayatta kalÄ±yor.
             int survivorIndex = matchingSlots[1];
             matchingSlots.RemoveAt(1);
             List<int> consumedSlots = matchingSlots;
 
             int bonusAmmo = 0;
 
-            // Arkaplanda mermileri topla ve Data'daki slotlarý hemen temizle
+            // Arkaplanda mermileri topla ve Data'daki slotlarÄ± hemen temizle
             foreach (int index in consumedSlots)
             {
                 bonusAmmo += slotLogics[index].ShooterLogic.Ammo;
                 slotLogics[index].Clear(); // Logic seviyesinde slot temizlendi.
             }
 
-            // Hayatta kalan mantýksal modele (ShooterLogic) mermileri ekle.
+            // Hayatta kalan mantÄ±ksal modele (ShooterLogic) mermileri ekle.
             slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
             
 

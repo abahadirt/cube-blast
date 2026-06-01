@@ -1,4 +1,4 @@
-﻿using Blast.Core.Data;
+using Blast.Core.Data;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
 using System.Collections.Generic;

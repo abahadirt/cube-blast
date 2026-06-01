@@ -1,4 +1,4 @@
-﻿using Blast.Core.Data;
+using Blast.Core.Data;
 using Blast.Level;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;

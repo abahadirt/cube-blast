@@ -20,7 +20,7 @@ namespace Blast.GameUnity.View
         }
 
         /*
-        // TODO[P5] : animler tanýmlanýnca hissiyata göre eklenecek.
+        // TODO[P5] : animler tanÄ±mlanÄ±nca hissiyata gÃ¶re eklenecek.
         //onaction gerekmeyecek cok buyuk ihtimal.
         public void FireVerticalBolt(
             CubeColor color, int column, int fromRow, int toRow, Action onArrived)

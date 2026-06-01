@@ -10,7 +10,7 @@ namespace Blast.GameUnity.View
 {
     public class ShooterReserveView : MonoBehaviour, IShooterReserveView
     {
-
+        
 
         private List<List<ShooterView>> _reserveColumns;
         private ShooterViewRegistry _registry;
@@ -21,7 +21,7 @@ namespace Blast.GameUnity.View
         private CubeColorPalette _palette;
 
         [Header("Layout")]
-        [Tooltip("NOT: Shooter prefab scale değiştirilirse bu değer de değişmeli.")]
+        [Tooltip("NOT: Shooter prefab scale deÄŸiÅŸtirilirse bu deÄŸer de deÄŸiÅŸmeli.")]
         [SerializeField] private Vector2 spacing = new Vector2(0.8f, 0.8f);
 
         [Header("Animation")]
@@ -36,10 +36,10 @@ namespace Blast.GameUnity.View
         }
 
 
-        // inspector icin child olayını sonra eklicem bi olayı yok
+        // inspector icin child olayÄ±nÄ± sonra eklicem bi olayÄ± yok
         //TODO[P2] :
-        //1. ShooterData almamalı
-        //2. başka yaklaşımlar da incelenmeli. (registrynin logice taşınması(?)[X] gibi)
+        //1. ShooterData almamalÄ±
+        //2. baÅŸka yaklaÅŸÄ±mlar da incelenmeli. (registrynin logice taÅŸÄ±nmasÄ±(?)[X] gibi)
         // shooterdata yerine ilerde sadece gerekli parametreler (color, ammo) verilirse baya ok.
         public void BuildColumns(IReadOnlyList<IReadOnlyList<ShooterData>> columnsData)
         {
@@ -55,17 +55,17 @@ namespace Blast.GameUnity.View
                 {
                     ShooterData data = columnsData[col][row];
 
-                    // 1. Prefabı Yarat ve Pozisyonunu Ayarla
+                    // 1. PrefabÄ± Yarat ve Pozisyonunu Ayarla
                     Vector3 spawnPos = GetElementPosition(col, row);
                     ShooterView newShooter = Instantiate(_shooterPrefab, spawnPos, Quaternion.identity, transform);
 
-                    // 2. Rengini/Yazısını Ayarla
+                    // 2. Rengini/YazÄ±sÄ±nÄ± Ayarla
                     newShooter.SetVisuals(_palette.Get(data.Color), data.Ammo);
 
-                    // 3. EN ÖNEMLİ ADIM: Memura (Registry) Datadaki ID ile kaydet!
+                    // 3. EN Ã–NEMLÄ° ADIM: Memura (Registry) Datadaki ID ile kaydet!
                     _registry.Register(data.Id, newShooter);
 
-                    // 4. Kaydırma animasyonları için kendi fiziksel listene de ekle
+                    // 4. KaydÄ±rma animasyonlarÄ± iÃ§in kendi fiziksel listene de ekle
                     reserveCol.Add(newShooter);
                 }
                 _reserveColumns.Add(reserveCol);
@@ -93,8 +93,8 @@ namespace Blast.GameUnity.View
 
 
         /// <summary>
-        /// World-space X koordinatına en yakın (boş olmayan) sütunun indeksini döner.
-        /// Eşleşme yoksa -1.
+        /// World-space X koordinatÄ±na en yakÄ±n (boÅŸ olmayan) sÃ¼tunun indeksini dÃ¶ner.
+        /// EÅŸleÅŸme yoksa -1.
         /// </summary>
         public int GetColumnIndexFromWorldX(float worldX)
         {
@@ -129,10 +129,10 @@ namespace Blast.GameUnity.View
 
 
         /// <summary>
-        /// Sütunun en üstündeki slot'u layout takibinden çıkarır ve transform'unu döner.
-        /// Kalan elemanlar yukarı doğru animasyonla kayar.
-        /// Destroy etmez — çağıran (Adapter), shooter'ı tahtaya fırlatma vb. amaçla
-        /// kullanmaya devam edebilsin diye yaşamaya bırakır.
+        /// SÃ¼tunun en Ã¼stÃ¼ndeki slot'u layout takibinden Ã§Ä±karÄ±r ve transform'unu dÃ¶ner.
+        /// Kalan elemanlar yukarÄ± doÄŸru animasyonla kayar.
+        /// Destroy etmez â€” Ã§aÄŸÄ±ran (Adapter), shooter'Ä± tahtaya fÄ±rlatma vb. amaÃ§la
+        /// kullanmaya devam edebilsin diye yaÅŸamaya bÄ±rakÄ±r.
         /// </summary>
         public void DetachFirstInColumn(int columnIndex)
         {

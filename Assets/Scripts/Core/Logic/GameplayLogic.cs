@@ -56,7 +56,7 @@ namespace Blast.Core.Logic
         public void Tick(float deltaTime)
         {
             _levelConditionEvaluator.Evaluate();
-            // TODO[P1] : mergeResults artik kullanýlmýyor. -> bakilacak.
+            // TODO[P1] : mergeResults artik kullanÄ±lmÄ±yor. -> bakilacak.
             List<MergeResult> mergeResults = _launchTrayLogic.Tick(deltaTime);
             _fireCoordinator.Tick(deltaTime);
            

@@ -5,7 +5,7 @@ namespace Blast.GameUnity.Level
     [CreateAssetMenu(menuName = "Blast/Level Catalog", fileName = "LevelCatalog")]
     public class LevelCatalog : ScriptableObject
     {
-        [Tooltip("Leveller bu sýraya göre oynanýr.")]
+        [Tooltip("Leveller bu sÄ±raya gÃ¶re oynanÄ±r.")]
         [SerializeField] private TextAsset[] _levels;
 
         public int Count => _levels.Length;

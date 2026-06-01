@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 
 using Blast.Core.Data;
 
@@ -8,18 +8,18 @@ namespace Blast.Level
     [System.Serializable]
     public class LevelData
     {
-        // BoardLogic için
+        // BoardLogic iÃ§in
         public int columns { get; set; }
         public int totalRows { get; set; }
         public GridRow[] rows { get; set; }
 
-        // LaunchTrayLogic için
+        // LaunchTrayLogic iÃ§in
         public int launchTrayCapacity { get; set; }
 
-        // ShooterReserveLogic için
+        // ShooterReserveLogic iÃ§in
         public List<ReserveColumnData> reserveColumns { get; set; }
 
-        // BoardPresenter için
+        // BoardPresenter iÃ§in
         public int visibleRows { get; set; }
 
 

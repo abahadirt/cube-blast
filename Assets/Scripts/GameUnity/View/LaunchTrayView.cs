@@ -23,7 +23,7 @@ namespace Blast.GameUnity.View
         }
 
 
-        // TODO[P0]: yaklaþým review edilecek
+        // TODO[P0]: yaklaÅŸÄ±m review edilecek
         public void TempUpdateShooterAmmo(int shooterId, int ammo)
         {
 
@@ -33,7 +33,7 @@ namespace Blast.GameUnity.View
             }
             else
             {
-                Debug.LogWarning($"ShooterView bulunamadý. shooterId: {shooterId}. Bu log hayra alamet deðil...");
+                Debug.LogWarning($"ShooterView bulunamadÄ±. shooterId: {shooterId}. Bu log hayra alamet deÄŸil...");
             }
             if (ammo <= 0)
             {
@@ -43,7 +43,7 @@ namespace Blast.GameUnity.View
         }
 
 
-        // TODO[P0]: yaklaþým review edilecek, anim degisince kod da degisecek.
+        // TODO[P0]: yaklaÅŸÄ±m review edilecek, anim degisince kod da degisecek.
         public void TempPlayDepartureAnimation(ShooterView shooter)
         {
             Sequence exitSequence = DOTween.Sequence();
@@ -51,12 +51,12 @@ namespace Blast.GameUnity.View
 
             exitSequence.Append(shooter.transform.DOMoveY(transform.position.y + 0.5f, 0.2f));
 
-            // 2. Araya 0.2 saniye bekleme süresi (boþluk) ekle
+            // 2. Araya 0.2 saniye bekleme sÃ¼resi (boÅŸluk) ekle
             exitSequence.AppendInterval(0.05f);
             int exitX = -4;
             float speedX = 10f;
             float leftDuration = (shooter.transform.position.x - exitX) / speedX;
-            // 3. Bekleme bittikten sonra sola git (0.4 saniye sürsün)
+            // 3. Bekleme bittikten sonra sola git (0.4 saniye sÃ¼rsÃ¼n)
             exitSequence.Append(shooter.transform.DOMoveX(-4, leftDuration));
 
             exitSequence.OnComplete(() =>
@@ -72,9 +72,9 @@ namespace Blast.GameUnity.View
 
         public void PlayArrivalAnimation(int shooterId, int slotIndex, float duration)
         {
-            if (!_registry.TryGet(shooterId, out ShooterView shooter)) // shooter otomatik initialize ediliyor, csharpa yeni gelmiþ herhalde
+            if (!_registry.TryGet(shooterId, out ShooterView shooter)) // shooter otomatik initialize ediliyor, csharpa yeni gelmiÅŸ herhalde
             {
-                Debug.LogWarning($"ShooterView bulunamadý. shooterId: {shooterId}. Bu log hayra alamet deðil...");
+                Debug.LogWarning($"ShooterView bulunamadÄ±. shooterId: {shooterId}. Bu log hayra alamet deÄŸil...");
                 return;
             }
 
@@ -87,7 +87,7 @@ namespace Blast.GameUnity.View
 
             if (!_registry.TryGet(survivorShooterID, out ShooterView survivorShooter))
             {
-                Debug.LogWarning($"Survivor ShooterView bulunamadý. ID: {survivorShooterID}");
+                Debug.LogWarning($"Survivor ShooterView bulunamadÄ±. ID: {survivorShooterID}");
                 return;
             }
 
@@ -96,7 +96,7 @@ namespace Blast.GameUnity.View
 
 
             Vector3 targetPos = survivorShooter.transform.position;
-            Debug.Log($"Merge animasyonu baþlýyor. Survivor ID: {survivorShooterID}, Target Pos: {targetPos}");
+            Debug.Log($"Merge animasyonu baÅŸlÄ±yor. Survivor ID: {survivorShooterID}, Target Pos: {targetPos}");
             foreach (int consumedId in consumedShooterIds)
             {
                 if (_registry.TryGet(consumedId, out ShooterView consumedShooter))
@@ -113,7 +113,7 @@ namespace Blast.GameUnity.View
                 }
                 else
                 {
-                    Debug.LogWarning($"ShooterView bulunamadý. consumedId: {consumedId}. Bu log hayra alamet deðil...");
+                    Debug.LogWarning($"ShooterView bulunamadÄ±. consumedId: {consumedId}. Bu log hayra alamet deÄŸil...");
                 }
             }
 

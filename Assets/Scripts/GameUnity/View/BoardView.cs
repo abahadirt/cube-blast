@@ -12,7 +12,7 @@ namespace Blast.GameUnity.View
         [SerializeField] private SpriteRenderer gridBackground;
         [SerializeField] private CubeColorPalette palette;
 
-        [Header("Görsel")]
+        [Header("GÃ¶rsel")]
         [SerializeField] private float gridWidth = 5f;
         [Range(0.1f, 1f)]
         [SerializeField] private float cubeSizeScale = 0.9f;
@@ -65,7 +65,7 @@ namespace Blast.GameUnity.View
             }
         }
 
-        //TODO[P3]: dokill yerine aimation queue kullanýlabilir...
+        //TODO[P3]: dokill yerine aimation queue kullanÄ±labilir...
         public void RemoveCubeFromBottom(int col, CubeColor? newTopColor)
         {
             CubeView recycled = _visualGrid[0, col];
@@ -116,7 +116,7 @@ namespace Blast.GameUnity.View
 
         public (float startX, float startY, float offset) GetGridSpawnParameters()
         {
-            // col=0 ve visualRow=0 olduðu için formülün sadeleþmiþ hali:
+            // col=0 ve visualRow=0 olduÄŸu iÃ§in formÃ¼lÃ¼n sadeleÅŸmiÅŸ hali:
             return (-_startOffsetX, _startOffsetY, _cellSize);
         }
 

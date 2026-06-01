@@ -31,11 +31,11 @@ namespace Blast.Core.Logic
         {
             if (_isResolved) return;
 
-            // Win, Lose'dan önce: son atýþ tahtayý bitiriyorsa kazanç bastýrýr.
+            // Win, Lose'dan Ã¶nce: son atÄ±ÅŸ tahtayÄ± bitiriyorsa kazanÃ§ bastÄ±rÄ±r.
             if (_board.IsCleared())
             {
                 _isResolved = true;
-                Log.Info(nameof(LevelConditionEvaluator), "Game Won — board cleared.");
+                Log.Info(nameof(LevelConditionEvaluator), "Game Won â€” board cleared.");
                 _eventQueue.Enqueue(new LevelCompletedEvent());
                 return;
             }
@@ -43,11 +43,11 @@ namespace Blast.Core.Logic
             if (CanMakeProgress()) return;
 
             _isResolved = true;
-            Log.Info(nameof(LevelConditionEvaluator), "Game Lost — no progress possible.");
+            Log.Info(nameof(LevelConditionEvaluator), "Game Lost â€” no progress possible.");
             _eventQueue.Enqueue(new LevelFailedEvent());
         }
 
-        // deadlock durumunu kontrol eder: hiç kimse ateþ edemiyor ve yeni biri giremiyor mu?
+        // deadlock durumunu kontrol eder: hiÃ§ kimse ateÅŸ edemiyor ve yeni biri giremiyor mu?
         private bool CanMakeProgress()
         {
             for (int i = 0; i < _tray.slotLogics.Length; i++)
@@ -64,7 +64,7 @@ namespace Blast.Core.Logic
                 if (_board.HasAnyValidTarget(shooter.Color)) return true;
             }
 
-            // Tray'deki hiç kimse ateþ edemiyor. Yeni biri girebilir mi?
+            // Tray'deki hiÃ§ kimse ateÅŸ edemiyor. Yeni biri girebilir mi?
             if (_tray.HasSpace() && !_reserve.IsEmpty()) return true;
 
             return false;

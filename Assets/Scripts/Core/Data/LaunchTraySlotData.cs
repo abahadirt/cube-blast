@@ -6,7 +6,7 @@ namespace Blast.Core.Data
         public bool HasArrived { get;  set; }
 
         //Tick icin yeni
-        public float ArrivalProgress { get;  set; } // 0..1, presentation için
+        public float ArrivalProgress { get;  set; } // 0..1, presentation iÃ§in
         public float arrivalDuration;
         public float arrivalElapsed;
 

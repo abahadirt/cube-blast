@@ -1,4 +1,4 @@
-﻿using Blast.Core.Event;
+using Blast.Core.Event;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;

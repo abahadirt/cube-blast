@@ -20,14 +20,14 @@ namespace Blast.Core.Logic
         public bool IsActive => _data.IsActive;
         public bool IsDepleted => _data.IsDepleted;
 
-        // Hesaplamalı alanlar
+        // HesaplamalÄ± alanlar
         public bool IsOnCooldown => _data.CooldownRemaining > 0f;
         public bool CanFire => IsActive && Ammo > 0 && !IsOnCooldown;
         
         public float FireCooldown => _data.FireCooldown;
 
 
-        // Dış dünyanın merminin bittiğini anlaması için event
+        // DÄ±ÅŸ dÃ¼nyanÄ±n merminin bittiÄŸini anlamasÄ± iÃ§in event
         public event Action Depleted;
 
 
@@ -72,7 +72,7 @@ namespace Blast.Core.Logic
 
             if (_data.IsDepleted)
             {
-                Depleted?.Invoke(); // Mermi bittiyse dışarıya bağır
+                Depleted?.Invoke(); // Mermi bittiyse dÄ±ÅŸarÄ±ya baÄŸÄ±r
             }
 
             return true;

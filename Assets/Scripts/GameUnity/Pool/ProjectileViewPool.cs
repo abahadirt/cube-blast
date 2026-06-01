@@ -19,7 +19,7 @@ namespace Blast.GameUnity.Pool
                 actionOnGet: ball => ball.gameObject.SetActive(true),
                 actionOnRelease: ball =>
                 {
-                    ball.transform.SetParent(transform); // hiyerarþiyi temiz tut
+                    ball.transform.SetParent(transform); // hiyerarÅŸiyi temiz tut
                     ball.gameObject.SetActive(false);
                 },
                 actionOnDestroy: ball => Destroy(ball.gameObject),

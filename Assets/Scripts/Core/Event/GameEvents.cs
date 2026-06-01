@@ -1,9 +1,9 @@
 using Blast.Core.Data;
 using System.Collections.Generic;
 
-// Boxing muhabbetinden struct yerine class kullanýldý.
-// Poola geçilirse en avantajlýsý class oluyor: no GC, no boxing...
-// (her event türü için ayrý queue kullanmak istemedim) tek queue'da kod daha yakýþýklý
+// Boxing muhabbetinden struct yerine class kullanÄ±ldÄ±.
+// Poola geÃ§ilirse en avantajlÄ±sÄ± class oluyor: no GC, no boxing...
+// (her event tÃ¼rÃ¼ iÃ§in ayrÄ± queue kullanmak istemedim) tek queue'da kod daha yakÄ±ÅŸÄ±klÄ±
 
 // UNITY DOCUMENT: """...To get around this, you should try to reduce the amount of
 // frequently managed heap allocations as possible: ideally to 0 bytes per
@@ -40,7 +40,7 @@ namespace Blast.Core.Event
         public ShootersMergedEvent(int survivorShooterId, List<int> consumedShooterIds, int totalAmmo)
         {
             SurvivorShooterId = survivorShooterId;
-            ConsumedShooterIds = consumedShooterIds.ToArray(); //TODO[P?] gerçekten immutable mý ve best practice mi emin degilim.
+            ConsumedShooterIds = consumedShooterIds.ToArray(); //TODO[P?] gerÃ§ekten immutable mÄ± ve best practice mi emin degilim.
             TotalAmmo = totalAmmo;
         }
     }

@@ -43,7 +43,7 @@ namespace Blast.GameUnity.UI
             _showTween?.Kill();
         }
 
-        public void ShowWin(Action onContinue) => Show("Seviye Tamamlandý!", "Sonraki Seviye", onContinue);
+        public void ShowWin(Action onContinue) => Show("Seviye TamamlandÄ±!", "Sonraki Seviye", onContinue);
         public void ShowLose(Action onRetry) => Show("Slotlar Doldu!", "Tekrar Dene", onRetry);
 
         private void Show(string title, string buttonLabel, Action onAction)
@@ -52,14 +52,14 @@ namespace Blast.GameUnity.UI
             _titleText.text = title;
             _buttonText.text = buttonLabel;
 
-            // 1. Önceki animasyon veya bekleme süreci varsa ÝPTAL ET (StopCoroutine'in karþýlýðý)
+            // 1. Ã–nceki animasyon veya bekleme sÃ¼reci varsa Ä°PTAL ET (StopCoroutine'in karÅŸÄ±lÄ±ÄŸÄ±)
             _showTween?.Kill();
 
-            // 2. Paneli hazýrlayýp sýfýrla
+            // 2. Paneli hazÄ±rlayÄ±p sÄ±fÄ±rla
             _root.SetActive(false);
             _root.transform.localScale = Vector3.zero;
 
-            // 3. DOTween Sequence (Sýralý Ýþlem) baþlat
+            // 3. DOTween Sequence (SÄ±ralÄ± Ä°ÅŸlem) baÅŸlat
             _showTween = DOTween.Sequence()
                 .AppendInterval(_settleDelay)
                 .AppendCallback(() => _root.SetActive(true))
@@ -74,7 +74,7 @@ namespace Blast.GameUnity.UI
         {
             Hide();
             var callback = _onAction;
-            _onAction = null;     // double-fire korumasý
+            _onAction = null;     // double-fire korumasÄ±
             callback?.Invoke();
         }
     }

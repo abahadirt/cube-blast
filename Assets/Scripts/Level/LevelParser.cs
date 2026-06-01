@@ -1,13 +1,13 @@
-using System;
+ï»¿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Blast.Level
 {
     /// <summary>
-    /// Level JSON'unu LevelData'ya çevirir. UnityEngine bağımlılığı yoktur:
-    /// Unity tarafı TextAsset.text ile, bot harness'ı File.ReadAllText ile
-    /// aynı Parse(...) çağrısını kullanır. "Level okuma" tek yerde toplanır.
+    /// Level JSON'unu LevelData'ya Ã§evirir. UnityEngine baÄŸÄ±mlÄ±lÄ±ÄŸÄ± yoktur:
+    /// Unity tarafÄ± TextAsset.text ile, bot harness'Ä± File.ReadAllText ile
+    /// aynÄ± Parse(...) Ã§aÄŸrÄ±sÄ±nÄ± kullanÄ±r. "Level okuma" tek yerde toplanÄ±r.
     /// </summary>
     public static class LevelParser
     {
@@ -23,12 +23,12 @@ namespace Blast.Level
         public static LevelData Parse(string json)
         {
             if (string.IsNullOrEmpty(json))
-                throw new ArgumentException("Level JSON boş olamaz.", nameof(json));
+                throw new ArgumentException("Level JSON boÅŸ olamaz.", nameof(json));
 
             LevelData levelData = JsonConvert.DeserializeObject<LevelData>(json, Settings);
 
-            // JSON yukarıdan-aşağı okunur, Core ve presenter tabandan indexler:
-            // JSON görüntüsüyle oyunun state'ini eşleştirmek için, JSON'daki satırları ters çeviriyoruz. 
+            // JSON yukarÄ±dan-aÅŸaÄŸÄ± okunur, Core ve presenter tabandan indexler:
+            // JSON gÃ¶rÃ¼ntÃ¼sÃ¼yle oyunun state'ini eÅŸleÅŸtirmek iÃ§in, JSON'daki satÄ±rlarÄ± ters Ã§eviriyoruz. 
             Array.Reverse(levelData.rows);
             return levelData;
         }

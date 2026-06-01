@@ -17,7 +17,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P1]: yaklaþým review edilecek
+        // TODO[P1]: yaklaÅŸÄ±m review edilecek
         public void Tick(float deltaTime)
         {
             int slotIndex = -1;
@@ -27,7 +27,7 @@ namespace Blast.Core.Logic
                 var shooter = slot.ShooterLogic;
                 if (shooter == null) continue;
 
-                shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
+                shooter.Tick(deltaTime); // cooldown'u kendi iÃ§inde ilerletir
 
                 if (!shooter.IsActive || shooter.IsDepleted) continue;
 

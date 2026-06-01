@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;
 using Blast.GameUnity.Level;

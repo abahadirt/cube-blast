@@ -1,12 +1,9 @@
 using Blast.Core.Data;
-using System;
 
 namespace Blast.Core.Logic
 {
     public class BoardLogic
     {
-        private TargetSelector _targetSelector;
-
         public int Columns { get; private set; }
         public int TotalRows { get; private set; }
 
@@ -79,34 +76,3 @@ namespace Blast.Core.Logic
 
 
 
-/*yeni
-
- public int RequestShot(CubeColor color)
- {
-     TargetResult result = _targetSelector.FindTarget(color);
-     if (!result.HasTarget) return -1;
-
-     LogicalHit(result.Column); // pre-emptive hit
-
-
-     return result.Column;
- }
- */
-
-
-
-/*
-public void SetDataAt(int dataRow, int col, CubeColor color)
-{
-    _gridData[dataRow, col] = color;
-}*/
-
-
-/*
-public CubeData GetTopDataAtCol(int col)
-{
-    if (GetColumnHeight(col) == 0) return null;
-    return GetDataAt(,col)
-
-}
-*/

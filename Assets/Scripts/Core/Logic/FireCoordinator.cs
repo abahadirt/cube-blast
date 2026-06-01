@@ -42,7 +42,6 @@ namespace Blast.Core.Logic
                 int hitRow = targetResult.Row;
                 shooter.Fire();
                 _eventQueue.Enqueue(new ShooterFiredEvent(shooter.Id, slotIndex, shooter.Color, targetColumn, hitRow, shooter.Ammo));
-                //_eventQueue.Enqueue(new CubeHitEvent(targetColumn,hitRow, true));
             }
         }
 

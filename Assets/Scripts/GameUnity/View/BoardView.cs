@@ -114,11 +114,6 @@ namespace Blast.GameUnity.View
             gridBackground.transform.localScale = new Vector3(bgWidth, bgHeight, 1f);
         }
 
-        public (float startX, float startY, float offset) GetGridSpawnParameters()
-        {
-            // col=0 ve visualRow=0 olduğu için formülün sadeleşmiş hali:
-            return (-_startOffsetX, _startOffsetY, _cellSize);
-        }
 
 
     }

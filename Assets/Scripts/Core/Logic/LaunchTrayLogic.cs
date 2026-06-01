@@ -4,15 +4,6 @@ using System.Collections.Generic;
 using Blast.Logging;
 namespace Blast.Core.Logic
 {
-    
-    public class MergeResult
-    {
-        public bool IsMerged { get; set; }
-        public int SurvivorIndex { get; set; }
-        public List<int> ConsumedIndices { get; set; }
-        public int TotalBonusAmmo { get; set; }
-    }
-
     public class LaunchTrayLogic
     {
         private readonly GameEventQueue _eventQueue;
@@ -33,7 +24,7 @@ namespace Blast.Core.Logic
         }
 
         // nullsa gönderme vs gereksiz ayrıntı...
-        public List<MergeResult> Tick(float deltaTime)
+        public void Tick(float deltaTime)
         {
             for (int i = 0; i < slotLogics.Length; i++)
             {
@@ -41,7 +32,7 @@ namespace Blast.Core.Logic
             }
             // TODO[P2] : TryMergeAll' early exit eklenecek. local parametre isimleri daha anlaşılır yapılacak. 
             // TODO[P3] : Her tick'te merge kontrolü yapıyor -> bakılacak. refactor yaparken mid loop mutation dikkate alınacak.
-            return TryMergeAll(); 
+            TryMergeAll(); 
         }
 
         public int AddShooter(ShooterLogic shooter, float arrivalDuration=0.15f)
@@ -90,10 +81,8 @@ namespace Blast.Core.Logic
         }
 
 
-        private List<MergeResult> TryMergeAll()
+        private void TryMergeAll()
         {
-            List<MergeResult> results = null;
-
             // Tray'de hangi renkler arrive olmuş halde var, onları topla
             Dictionary<CubeColor, List<int>> slotsByColor = new Dictionary<CubeColor, List<int>>();
 
@@ -121,9 +110,6 @@ namespace Blast.Core.Logic
                 if (matchingSlots.Count < 3)
                     continue;
 
-
-
-
                 //AAEVENT
                 List<int> consumedShooterIds = new List<int>();
 
@@ -149,22 +135,11 @@ namespace Blast.Core.Logic
 
                 slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
 
-                if (results == null)
-                    results = new List<MergeResult>();
                 Log.Info(nameof(LaunchTrayLogic), $"Merge oldu! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
                 _eventQueue.Enqueue(new ShootersMergedEvent(survivorShooterId, consumedShooterIds, slotLogics[survivorIndex].ShooterLogic.Ammo));
-
-                results.Add(new MergeResult
-                {
-                    IsMerged = true,
-                    SurvivorIndex = survivorIndex,
-                    ConsumedIndices = consumedSlots,
-                    TotalBonusAmmo = bonusAmmo
-                });
             }
 
             ActivateAll();
-            return results;
         }
 
 
@@ -183,54 +158,6 @@ namespace Blast.Core.Logic
                 }
             }
         }
-
-
-        /*
-        public MergeResult ExecuteMerge(CubeColor color)
-        {
-            List<int> matchingSlots = new List<int>();
-
-            for (int i = 0; i < slotLogics.Length; i++)
-            {
-                var slot = slotLogics[i];
-                if (!slot.IsAvailable && slot.HasArrived && slot.ShooterLogic.Color == color)
-                {
-                    matchingSlots.Add(i);
-                }
-            }
-
-            if (matchingSlots.Count < 3)
-            {
-                return new MergeResult { IsMerged = false };
-            }
-
-            // Orijinal kuraldaki gibi: listendeki 2. eleman (index 1) hayatta kalıyor.
-            int survivorIndex = matchingSlots[1];
-            matchingSlots.RemoveAt(1);
-            List<int> consumedSlots = matchingSlots;
-
-            int bonusAmmo = 0;
-
-            // Arkaplanda mermileri topla ve Data'daki slotları hemen temizle
-            foreach (int index in consumedSlots)
-            {
-                bonusAmmo += slotLogics[index].ShooterLogic.Ammo;
-                slotLogics[index].Clear(); // Logic seviyesinde slot temizlendi.
-            }
-
-            // Hayatta kalan mantıksal modele (ShooterLogic) mermileri ekle.
-            slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
-            
-
-            return new MergeResult
-            {
-                IsMerged = true,
-                SurvivorIndex = survivorIndex,
-                ConsumedIndices = consumedSlots,
-                TotalBonusAmmo = bonusAmmo
-            };
-        }
-        */
 
 
     }

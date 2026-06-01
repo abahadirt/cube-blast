@@ -1,5 +1,4 @@
 using Blast.Core.Event;
-using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
@@ -57,7 +56,7 @@ namespace Blast.Core.Logic
         {
             _levelConditionEvaluator.Evaluate();
             // TODO[P1] : mergeResults artik kullanılmıyor. -> bakilacak.
-            List<MergeResult> mergeResults = _launchTrayLogic.Tick(deltaTime);
+            _launchTrayLogic.Tick(deltaTime);
             _fireCoordinator.Tick(deltaTime);
            
         }

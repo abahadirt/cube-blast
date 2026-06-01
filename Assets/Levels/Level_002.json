@@ -1,36 +1,126 @@
 {
   "columns": 10,
-  "totalRows": 10,
+  "totalRows": 40,
   "rows": [
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Red","Red","Red","Red","Red","Red","Red","Blue","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Red","Red","Blue","Red","Red","Red","Red","Red","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Red","Red","Red","Red","Blue","Red","Red","Red","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Blue","Red","Red","Red","Red","Red","Blue","Red","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Black","Black","Black","Black","Black","Black","Black","Black","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Green","Green","Green","Green","Green","Green","Green","Green","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Red","Blue","Blue","Blue","Blue","Blue","Yellow","Green","Black"]
     },
     {
-      "colors":["Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow"]
+      "colors":["Black","Red","Red","Green","Green","Green","Green","Yellow","Green","Black"]
     },
     {
-      "colors":["Green","Green","Green","Green","Green","Green","Green","Green","Green","Blue"]
+      "colors":["Black","Yellow","Red","Green","Green","Green","Green","Yellow","Green","Black"]
     },
     {
-      "colors":["Green","Green","Green","Green","Green","Green","Green","Green","Green","Red"]
+      "colors":["Black","Yellow","Yellow","Green","Green","Green","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Yellow","Red","Green","Green","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Green","Yellow","Red","Red","Green","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Blue","Yellow","Red","Green","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Blue","Yellow","Red","Blue","Blue","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Blue","Blue","Yellow","Red","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Green","Yellow","Blue","Yellow","Red","Green","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Yellow","Yellow","Yellow","Red","Yellow","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Yellow","Yellow","Yellow","Yellow","Red","Yellow","Yellow","Green","Black"]
+    },
+    {
+      "colors":["Black","Green","Green","Yellow","Yellow","Blue","Red","Red","Green","Black"]
+    },
+    {
+      "colors":["Black","Green","Green","Yellow","Yellow","Blue","Blue","Red","Red","Black"]
+    },
+    {
+      "colors":["Black","Green","Green","Green","Yellow","Blue","Blue","Blue","Blue","Black"]
+    },
+    {
+      "colors":["Black","Blue","Green","Green","Green","Green","Green","Green","Blue","Black"]
+    },
+    {
+      "colors":["Black","Blue","Yellow","Yellow","Green","Green","Green","Green","Green","Black"]
+    },
+    {
+      "colors":["Black","Blue","Blue","Yellow","Yellow","Yellow","Yellow","Green","Green","Black"]
+    },
+    {
+      "colors":["Black","Blue","Blue","Blue","Yellow","Yellow","Yellow","Green","Green","Black"]
+    },
+    {
+      "colors":["Black","Blue","Blue","Blue","Blue","Blue","Green","Green","Yellow","Black"]
+    },
+    {
+      "colors":["Black","Blue","Blue","Blue","Blue","Green","Green","Yellow","Yellow","Black"]
+    },
+    {
+      "colors":["Black","Blue","Green","Green","Green","Green","Blue","Blue","Yellow","Black"]
+    },
+    {
+      "colors":["Black","Green","Green","Green","Green","Blue","Blue","Blue","Blue","Black"]
+    },
+    {
+      "colors":["Black","Green","Green","Blue","Blue","Blue","Blue","Blue","Blue","Black"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red","Red","Red","Red","Red","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Blue","Blue","Blue","Blue","Blue","Blue","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Blue","Black","Blue","Blue","Black","Blue","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Blue","Blue","Blue","Blue","Blue","Blue","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Yellow","Yellow","Black","Black","Yellow","Yellow","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Black","Yellow","Yellow","Yellow","Yellow","Black","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Black","Black","Black","Black","Black","Black","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Yellow","Red"]
+    },
+    {
+      "colors":["Red","Red","Red","Red","Red","Red","Red","Red","Red","Red"]
     }
   ],
   "launchTrayCapacity": 5,
@@ -38,15 +128,31 @@
     {
       "shooters": [
         {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
           "color": "Blue",
           "ammo": 10
-        }
-      ]
-    },
-    {
-      "shooters": [
+        },
         {
           "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
           "ammo": 10
         },
         {
@@ -54,11 +160,7 @@
           "ammo": 10
         },
         {
-          "color": "Green",
-          "ammo": 10
-        },
-        {
-          "color": "Green",
+          "color": "Yellow",
           "ammo": 10
         }
       ]
@@ -68,13 +170,45 @@
         {
           "color": "Red",
           "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
         }
       ]
     },
     {
       "shooters": [
         {
-          "color": "Yellow",
+          "color": "Red",
           "ammo": 10
         },
         {
@@ -82,7 +216,87 @@
           "ammo": 10
         },
         {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Red",
+          "ammo": 10
+        }
+      ]
+    },
+    {
+      "shooters": [
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
           "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Yellow",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
+          "ammo": 10
+        },
+        {
+          "color": "Blue",
+          "ammo": 10
+        },
+        {
+          "color": "Green",
+          "ammo": 10
+        },
+        {
+          "color": "Black",
           "ammo": 10
         }
       ]

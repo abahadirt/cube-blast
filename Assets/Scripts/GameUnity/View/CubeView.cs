@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Blast.GameUnity.View
 {
@@ -17,7 +17,7 @@ namespace Blast.GameUnity.View
 
         public void SetColor(Color color)
         {
-            // Awake'ten önce çağrı gelirse fallback
+            // Fallback in case this is called before Awake
             if (_spriteRenderer == null)
                 _spriteRenderer = GetComponent<SpriteRenderer>();
 

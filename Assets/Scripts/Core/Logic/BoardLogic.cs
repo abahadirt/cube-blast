@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 
 namespace Blast.Core.Logic
 {
@@ -11,7 +11,7 @@ namespace Blast.Core.Logic
         private int[] _columnBottom;
         private int[] _columnTop;
 
-        //TODO[P99] : int columns, int totalRow tam dolu olmayan boardlar icin test edilecek.
+        // TODO[P99]: Test int columns and int totalRow for partially filled boards.
         public BoardLogic(int columns, int totalRows, GridRow[] rows)
         {
 

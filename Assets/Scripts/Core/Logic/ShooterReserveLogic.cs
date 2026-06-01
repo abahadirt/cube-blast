@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Blast.Core.Data;
 using Blast.Logging;
 
@@ -6,8 +6,8 @@ namespace Blast.Core.Logic
 {
     public class ShooterReserveLogic
     {
-        // Reserve kolonları FIFO sırasıyla tüketilir.
-        // Farklı ve aynı kolondaki shooter'lar arasında indeks bazlı erişim gereken feature ekleneceği için Queue yerine List kullanılır.
+        // Reserve columns' elements are consumed in FIFO order.
+        // List is used instead of Queue to support future features requiring index-based access.
         private List<List<ShooterLogic>> _reserveColumns;
         public ShooterReserveLogic(List<ReserveColumnData> reserveColumns)
         {
@@ -52,7 +52,7 @@ namespace Blast.Core.Logic
 
 
 
-        //TODO[P3]: yaklaşım review edilecek.
+        //TODO[P3]: Review this approach.
         public List<List<ShooterData>> GetInitialState()
         {
             var initialState = new List<List<ShooterData>>(_reserveColumns.Count);

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Blast.Core.Data;
 using Blast.GameUnity.Pool;
 using UnityEngine;
@@ -18,18 +18,6 @@ namespace Blast.GameUnity.View
             Vector2 to = _boardView.GetBottomCubePosition(targetColumn);
             Launch(color, from, to, onArrived);
         }
-
-        /*
-        // TODO[P5] : animler tanımlanınca hissiyata göre eklenecek.
-        //onaction gerekmeyecek cok buyuk ihtimal.
-        public void FireVerticalBolt(
-            CubeColor color, int column, int fromRow, int toRow, Action onArrived)
-        {
-            Vector2 from = _boardView.GetVisualCellPosition(column, fromRow);
-            Vector2 to = _boardView.GetVisualCellPosition(column, toRow);
-            Launch(color, from, to, onArrived);
-        }
-        */
 
         private void Launch(CubeColor color, Vector2 from, Vector2 to, Action onArrived)
         {

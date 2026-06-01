@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
 using System.Collections.Generic;
@@ -14,10 +14,13 @@ namespace Blast.GamePresentation.Presenter
 
 
 
+
         /*
-          [debuglog 1 ] Hit Column index: 9, hitLogicalRow: 3, newTopDataRow: 13
-          [debuglog 2] Hit Column index: 9, hitLogicalRow: 1, newTopDataRow: 11
-           mermi ulaşma süresi farkından logicten gelen eventle senkronize olmak için çözüm:
+         * Queues hit events per column to synchronize instant logic updates
+         * with varying projectile arrival times.
+         * Solves this scenario:
+         * [debuglog 1] Hit Column index: 9, hitLogicalRow: 3, newTopDataRow: 13
+         * [debuglog 2] Hit Column index: 9, hitLogicalRow: 1, newTopDataRow: 11
          */
         private readonly Queue<int>[] _pendingHitsPerColumn;
 
@@ -71,7 +74,7 @@ namespace Blast.GamePresentation.Presenter
             var queue = _pendingHitsPerColumn[column];
             if (queue.Count == 0)
             {
-                Log.Warn(nameof(BoardPresenter), $"col {column} projectile arrived, pending hit yok." +
+                Log.Warn(nameof(BoardPresenter), $"col {column} projectile arrived, no pending hit." +
                     "EnqueueHit ile OnProjectileArrived senkron değil.");
 
                 return;

@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using DG.Tweening;
 using UnityEngine;
 using Blast.GamePresentation.Contract;
@@ -7,12 +7,12 @@ namespace Blast.GameUnity.View
 {
     public class BoardView : MonoBehaviour, IBoardView
     {
-        [Header("Referanslar")]
+        [Header("References")]
         [SerializeField] private GameObject cubePrefab;
         [SerializeField] private SpriteRenderer gridBackground;
         [SerializeField] private CubeColorPalette palette;
 
-        [Header("Görsel")]
+        [Header("Visuals")]
         [SerializeField] private float gridWidth = 5f;
         [Range(0.1f, 1f)]
         [SerializeField] private float cubeSizeScale = 0.9f;
@@ -65,7 +65,7 @@ namespace Blast.GameUnity.View
             }
         }
 
-        //TODO[P3]: dokill yerine aimation queue kullanılabilir...
+        //TODO[P3]: can be used animation queue instead of DOKill.
         public void RemoveCubeFromBottom(int col, CubeColor? newTopColor)
         {
             CubeView recycled = _visualGrid[0, col];
@@ -104,7 +104,7 @@ namespace Blast.GameUnity.View
 
         private void AdjustGridBackground()
         {
-            Debug.Log($"visible rows: {_visibleRows}");
+            Debug.Log($"Visible rows: {_visibleRows}");
             int displayRows = _visibleRows;
             float bgWidth = _columns * _cellSize + _cellSize * 0.3f;
             float bgHeight = displayRows * _cellSize + _cellSize * 0.3f;

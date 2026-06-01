@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using System;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ namespace Blast.GameUnity.View
     [RequireComponent(typeof(SpriteRenderer))]
     public class ProjectileView : MonoBehaviour
     {
-        [SerializeField] private float _speed = 10f; //durationa geçilebilir.!
+        [SerializeField] private float _speed = 10f;
         [SerializeField] private CubeColorPalette _palette;
         public CubeColor BallColor { get; private set; }
 
@@ -50,14 +50,14 @@ namespace Blast.GameUnity.View
                 _isMoving = false;
 
                 var callback = _onArrived;
-                _onArrived = null;       // çağırmadan önce temizle, double-fire'ı önle // ondisable var zaten
+                _onArrived = null; // prevent double-fire
                 callback?.Invoke();
             }
         }
 
         void OnDisable()
         {
-            // pool'a dönerken state'i temizle
+            // clear state when returning to pool
             _onArrived = null;
             _isMoving = false;
         }

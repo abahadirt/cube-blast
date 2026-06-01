@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
@@ -52,14 +52,14 @@ namespace Blast.GameUnity.UI
             _titleText.text = title;
             _buttonText.text = buttonLabel;
 
-            // 1. Önceki animasyon veya bekleme süreci varsa İPTAL ET (StopCoroutine'in karşılığı)
+            // 1.Cancel previous animation or delay if any
             _showTween?.Kill();
 
-            // 2. Paneli hazırlayıp sıfırla
+            // 2. Prepare and reset panel
             _root.SetActive(false);
             _root.transform.localScale = Vector3.zero;
 
-            // 3. DOTween Sequence (Sıralı İşlem) başlat
+            // 3. Start DOTween sequence
             _showTween = DOTween.Sequence()
                 .AppendInterval(_settleDelay)
                 .AppendCallback(() => _root.SetActive(true))
@@ -74,7 +74,7 @@ namespace Blast.GameUnity.UI
         {
             Hide();
             var callback = _onAction;
-            _onAction = null;     // double-fire koruması
+            _onAction = null;     // prevent double-fire 
             callback?.Invoke();
         }
     }

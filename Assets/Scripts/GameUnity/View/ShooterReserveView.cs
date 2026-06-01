@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using Blast.GamePresentation.Contract;
 using Blast.GameUnity.Registry;
 using DG.Tweening;
@@ -21,7 +21,7 @@ namespace Blast.GameUnity.View
         private CubeColorPalette _palette;
 
         [Header("Layout")]
-        [Tooltip("NOT: Shooter prefab scale değiştirilirse bu değer de değişmeli.")]
+        [Tooltip("NOTE: If the Shooter prefab's scale is changed, this value must also be updated.")]
         [SerializeField] private Vector2 spacing = new Vector2(0.8f, 0.8f);
 
         [Header("Animation")]
@@ -36,11 +36,7 @@ namespace Blast.GameUnity.View
         }
 
 
-        // inspector icin child olayını sonra eklicem bi olayı yok
-        //TODO[P2] :
-        //1. ShooterData almamalı
-        //2. başka yaklaşımlar da incelenmeli. (registrynin logice taşınması(?)[X] gibi)
-        // shooterdata yerine ilerde sadece gerekli parametreler (color, ammo) verilirse baya ok.
+        // TODO[P2] : Change method input parameter
         public void BuildColumns(IReadOnlyList<IReadOnlyList<ShooterData>> columnsData)
         {
             InitLayout(columnsData.Count);
@@ -55,17 +51,16 @@ namespace Blast.GameUnity.View
                 {
                     ShooterData data = columnsData[col][row];
 
-                    // 1. Prefabı Yarat ve Pozisyonunu Ayarla
+                    // Create shooter instance at the correct position in the reserve column
                     Vector3 spawnPos = GetElementPosition(col, row);
                     ShooterView newShooter = Instantiate(_shooterPrefab, spawnPos, Quaternion.identity, transform);
 
-                    // 2. Rengini/Yazısını Ayarla
                     newShooter.SetVisuals(_palette.Get(data.Color), data.Ammo);
 
-                    // 3. EN ÖNEMLİ ADIM: Memura (Registry) Datadaki ID ile kaydet!
+                    // Register the instantiated view bt its data ID
                     _registry.Register(data.Id, newShooter);
 
-                    // 4. Kaydırma animasyonları için kendi fiziksel listene de ekle
+                    // Add the new shooter to the reservecolumn list
                     reserveCol.Add(newShooter);
                 }
                 _reserveColumns.Add(reserveCol);
@@ -93,8 +88,8 @@ namespace Blast.GameUnity.View
 
 
         /// <summary>
-        /// World-space X koordinatına en yakın (boş olmayan) sütunun indeksini döner.
-        /// Eşleşme yoksa -1.
+        /// Returns the index of the closest non-empty column based on the provided world-space X coordinate.
+        /// Returns -1 if all columns are empty or the collection is uninitialized.
         /// </summary>
         public int GetColumnIndexFromWorldX(float worldX)
         {
@@ -129,10 +124,9 @@ namespace Blast.GameUnity.View
 
 
         /// <summary>
-        /// Sütunun en üstündeki slot'u layout takibinden çıkarır ve transform'unu döner.
-        /// Kalan elemanlar yukarı doğru animasyonla kayar.
-        /// Destroy etmez — çağıran (Adapter), shooter'ı tahtaya fırlatma vb. amaçla
-        /// kullanmaya devam edebilsin diye yaşamaya bırakır.
+        /// Removes the first element (shooter) in the specified column from the reserve columns.
+        /// This is not an object destruction function; rather, it is the first step for the game 
+        /// mechanic that sends an element from the reserve column to the launch tray.
         /// </summary>
         public void DetachFirstInColumn(int columnIndex)
         {
@@ -151,7 +145,7 @@ namespace Blast.GameUnity.View
                 var t = column[row].transform;
                 if (t == null) continue;
 
-                t.DOKill(); //SILINECEK ! ! ! ! !
+                t.DOKill();
                 t.DOMove(GetElementPosition(columnIndex, row), _repositionDuration)
                  .SetEase(_repositionEase);
             }

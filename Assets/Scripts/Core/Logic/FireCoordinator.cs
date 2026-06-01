@@ -1,4 +1,4 @@
-using Blast.Core.Event;
+﻿using Blast.Core.Event;
 
 namespace Blast.Core.Logic
 {
@@ -17,7 +17,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P1]: yaklaşım review edilecek
+        // TODO[P1]: Review this approach.
         public void Tick(float deltaTime)
         {
             int slotIndex = -1;
@@ -27,7 +27,7 @@ namespace Blast.Core.Logic
                 var shooter = slot.ShooterLogic;
                 if (shooter == null) continue;
 
-                shooter.Tick(deltaTime); // cooldown'u kendi içinde ilerletir
+                shooter.Tick(deltaTime);
 
                 if (!shooter.IsActive || shooter.IsDepleted) continue;
 

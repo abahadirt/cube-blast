@@ -1,4 +1,4 @@
-using Blast.Core.Event;
+﻿using Blast.Core.Event;
 
 namespace Blast.Core.Logic
 {
@@ -55,7 +55,6 @@ namespace Blast.Core.Logic
         public void Tick(float deltaTime)
         {
             _levelConditionEvaluator.Evaluate();
-            // TODO[P1] : mergeResults artik kullanılmıyor. -> bakilacak.
             _launchTrayLogic.Tick(deltaTime);
             _fireCoordinator.Tick(deltaTime);
            

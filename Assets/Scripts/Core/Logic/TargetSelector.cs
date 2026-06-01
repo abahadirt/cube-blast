@@ -1,10 +1,10 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
 
-    // farklı küp turleri eklenince ihtiyaç olacak.
+    // Will be needed when adding new cube types.
     public readonly struct TargetResult
     {
         public readonly bool HasTarget;
@@ -31,7 +31,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P1]: Single Resp. bozuyor, yaklaşım review edilecek, metod isim güncellenebilir.
+        // TODO[P0]: Will be REFACTORED
         public TargetResult FindTarget(CubeColor color)
         {
             if (!_colorMemory.ContainsKey(color))

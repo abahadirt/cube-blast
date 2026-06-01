@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Blast.GameUnity.Level
 {
     /// <summary>
-    /// Aktif level index'ini kalıcılaştırır (WebGL'de localStorage).
-    /// Sahne reload'ları ve oturumlar arası ilerleme korunur.
-    /// Katalog sınır kontrolü burada DEĞİL, akışta yapılır.
+    /// Persists the active level index (localStorage in WebGL).
+    /// Keeps progress across scene reloads and sessions.
+    /// Catalog bounds checking is handled by the flow.
     /// </summary>
     public static class LevelProgress
     {

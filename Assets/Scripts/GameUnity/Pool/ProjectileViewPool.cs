@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Pool;
 using Blast.GameUnity.View;
 
@@ -19,7 +19,7 @@ namespace Blast.GameUnity.Pool
                 actionOnGet: ball => ball.gameObject.SetActive(true),
                 actionOnRelease: ball =>
                 {
-                    ball.transform.SetParent(transform); // hiyerarşiyi temiz tut
+                    ball.transform.SetParent(transform); // keep hierarchy clean
                     ball.gameObject.SetActive(false);
                 },
                 actionOnDestroy: ball => Destroy(ball.gameObject),

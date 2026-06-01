@@ -8,18 +8,18 @@ namespace Blast.Level
     [System.Serializable]
     public class LevelData
     {
-        // BoardLogic için
+        // For BoardLogic
         public int columns { get; set; }
         public int totalRows { get; set; }
         public GridRow[] rows { get; set; }
 
-        // LaunchTrayLogic için
+        // For LaunchTrayLogic
         public int launchTrayCapacity { get; set; }
 
-        // ShooterReserveLogic için
+        // For ShooterReserveLogic
         public List<ReserveColumnData> reserveColumns { get; set; }
 
-        // BoardPresenter için
+        // For BoardPresenter
         public int visibleRows { get; set; }
 
 

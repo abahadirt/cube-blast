@@ -5,9 +5,8 @@ using Newtonsoft.Json.Converters;
 namespace Blast.Level
 {
     /// <summary>
-    /// Level JSON'unu LevelData'ya çevirir. UnityEngine bağımlılığı yoktur:
-    /// Unity tarafı TextAsset.text ile, bot harness'ı File.ReadAllText ile
-    /// aynı Parse(...) çağrısını kullanır. "Level okuma" tek yerde toplanır.
+    /// Parses level JSON into LevelData. No UnityEngine dependency.
+    /// Used by both Unity and bot harness for consistent level loading.
     /// </summary>
     public static class LevelParser
     {
@@ -16,19 +15,18 @@ namespace Blast.Level
         private static JsonSerializerSettings BuildSettings()
         {
             var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new StringEnumConverter()); // "Red" -> CubeColor.Red
+            settings.Converters.Add(new StringEnumConverter()); // Converts string to enum (e.g. "Red" -> CubeColor.Red)
             return settings;
         }
 
         public static LevelData Parse(string json)
         {
             if (string.IsNullOrEmpty(json))
-                throw new ArgumentException("Level JSON boş olamaz.", nameof(json));
+                throw new ArgumentException("Level JSON cannot be null or empty.", nameof(json));
 
             LevelData levelData = JsonConvert.DeserializeObject<LevelData>(json, Settings);
 
-            // JSON yukarıdan-aşağı okunur, Core ve presenter tabandan indexler:
-            // JSON görüntüsüyle oyunun state'ini eşleştirmek için, JSON'daki satırları ters çeviriyoruz. 
+            // Reverse rows to match bottom-up indexing used in Core and presenter.
             Array.Reverse(levelData.rows);
             return levelData;
         }

@@ -1,9 +1,9 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using System.Collections.Generic;
 
-// Boxing muhabbetinden struct yerine class kullanıldı.
-// Poola geçilirse en avantajlısı class oluyor: no GC, no boxing...
-// (her event türü için ayrı queue kullanmak istemedim) tek queue'da kod daha yakışıklı
+// Classes used instead of structs to prevent boxing.
+// Beneficial if object pooling is added later (no GC, no boxing).
+// A single queue for all event types is preferred for cleaner architecture.
 
 // UNITY DOCUMENT: """...To get around this, you should try to reduce the amount of
 // frequently managed heap allocations as possible: ideally to 0 bytes per
@@ -16,8 +16,8 @@ namespace Blast.Core.Event
         public int ShooterId { get; }
         public int TargetSlotIndex { get; }
         public int SourceColumnIndex { get; }
-        public float ArrivalDuration { get; } // TODO[P4]: suan statik deger donuyor ilerde bir ihtimal mesafeye gore dinamik hesaplanabilir. 
-        
+        public float ArrivalDuration { get; } // TODO[P99]: Re-evaluate static value; could be dynamically calculated based on distance later.
+
 
         public ShooterSentEvent(int shooterId, int targetSlotIndex, int sourceColumnIndex, float arrivalDuration)
         {
@@ -30,7 +30,6 @@ namespace Blast.Core.Event
 
     public class ShootersMergedEvent : IGameEvent
     {
-        //public int SurvivorSlotIndex { get; }
         public int SurvivorShooterId { get; }
 
         public IReadOnlyList<int> ConsumedShooterIds { get; }
@@ -40,11 +39,11 @@ namespace Blast.Core.Event
         public ShootersMergedEvent(int survivorShooterId, List<int> consumedShooterIds, int totalAmmo)
         {
             SurvivorShooterId = survivorShooterId;
-            ConsumedShooterIds = consumedShooterIds.ToArray(); //TODO[P?] gerçekten immutable mı ve best practice mi emin degilim.
+            ConsumedShooterIds = consumedShooterIds.ToArray(); // TODO[P4]: Verify immutability and best practices.
             TotalAmmo = totalAmmo;
         }
     }
-    // bura degisebilir
+    // TODO[P0]: review
     public class ShooterFiredEvent : IGameEvent
     {
         public int ShooterId { get; }
@@ -65,7 +64,7 @@ namespace Blast.Core.Event
             RemainingAmmo = remainingAmmo;
         }
     }
-    // bura degisebilir
+    // TODO[P0]: review
     public class CubeHitEvent : IGameEvent
     {
         public int Column { get; }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;
 using Blast.GameUnity.Level;
@@ -8,10 +8,9 @@ using UnityEngine.SceneManagement;
 namespace Blast.GameUnity.Boot
 {
     /// <summary>
-    /// Bir level'ın çalışma döngüsünü ve level geçişlerini yönetir.
-    /// Composition root SADECE grafı kurar; "ne zaman tick, kazanınca/kaybedince
-    /// ne olur" buraya aittir. Scene reload kullandığımız için sahne-ömürlüdür,
-    /// kalıcı bir manager/singleton DEĞİL.
+    /// Manages the game flow and level transitions.
+    /// The composition root ONLY builds the graph; flow logic (tick timing, win/loss) belongs here.
+    /// It is scene-scoped due to scene reloads, NOT a persistent manager/singleton.
     /// </summary>
     public class GameFlowController : IDisposable
     {
@@ -45,7 +44,7 @@ namespace Blast.GameUnity.Boot
         private void OnLevelCompleted()
         {
             _resolved = true;
-            _inputHandler.enabled = false;             // overlay açıkken tap'leri kes
+            _inputHandler.enabled = false;             // block taps while overlay is active
             _endView.ShowWin(AdvanceToNextLevel);
         }
 
@@ -53,13 +52,13 @@ namespace Blast.GameUnity.Boot
         {
             _resolved = true;
             _inputHandler.enabled = false;
-            _endView.ShowLose(ReloadScene);       // index değişmez → aynı level
+            _endView.ShowLose(ReloadScene);       // keep index -> replay level
         }
 
         private void AdvanceToNextLevel()
         {
             int next = _levelIndex + 1;
-            LevelProgress.CurrentIndex = _catalog.IsValidIndex(next) ? next : 0; // sonda başa sar
+            LevelProgress.CurrentIndex = _catalog.IsValidIndex(next) ? next : 0; // wrap around at the end
             ReloadScene();
         }
 

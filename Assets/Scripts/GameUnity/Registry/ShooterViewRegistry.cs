@@ -1,11 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Blast.GameUnity.View;
 
 
 namespace Blast.GameUnity.Registry
 {
 
-    // Bu registry, shooterId ile ShooterView arasında bir eşleme sağlar.
+    // Maps shooterId to ShooterView.
     public class ShooterViewRegistry
     {
         private Dictionary<int, ShooterView> _viewsById = new Dictionary<int, ShooterView>();

@@ -1,4 +1,4 @@
-using Blast.Core.Event;
+﻿using Blast.Core.Event;
 using Blast.Logging;
 
 namespace Blast.Core.Logic
@@ -23,15 +23,15 @@ namespace Blast.Core.Logic
             _reserve = reserve;
             _eventQueue = eventQueue;
         }
-        
 
-        // sadelik ve mimari uyumu icin, (win lose condition check), event veya dirtflag yerine polling tercih edildi
-        // maliyeti onemsiz duzeyde O(tray*columns)
+
+        // Polling is used instead of events/dirty flags for simplicity. 
+        // Cost is negligible: O(tray * columns).
         public void Evaluate()
         {
             if (_isResolved) return;
 
-            // Win, Lose'dan önce: son atış tahtayı bitiriyorsa kazanç bastırır.
+            // Win condition takes priority over lose condition.
             if (_board.IsCleared())
             {
                 _isResolved = true;
@@ -47,7 +47,7 @@ namespace Blast.Core.Logic
             _eventQueue.Enqueue(new LevelFailedEvent());
         }
 
-        // deadlock durumunu kontrol eder: hiç kimse ateş edemiyor ve yeni biri giremiyor mu?
+        // Checks for deadlocks: no one can fire and no new shooters can enter.
         private bool CanMakeProgress()
         {
             for (int i = 0; i < _tray.slotLogics.Length; i++)
@@ -55,7 +55,7 @@ namespace Blast.Core.Logic
                 var slot = _tray.slotLogics[i];
                 if (slot.IsAvailable) continue;
 
-                // hasArrived olmus mu?
+                // Wait for moving shooters to arrive.
                 if (!slot.HasArrived) return true;
 
                 var shooter = slot.ShooterLogic;
@@ -64,7 +64,7 @@ namespace Blast.Core.Logic
                 if (_board.HasAnyValidTarget(shooter.Color)) return true;
             }
 
-            // Tray'deki hiç kimse ateş edemiyor. Yeni biri girebilir mi?
+            // No active shooters can fire. Check if a new one can enter.
             if (_tray.HasSpace() && !_reserve.IsEmpty()) return true;
 
             return false;

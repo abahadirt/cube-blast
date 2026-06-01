@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using System;
 
 namespace Blast.Core.Logic
@@ -13,21 +13,19 @@ namespace Blast.Core.Logic
         }
 
 
-        // Expose
         public int Id => _data.Id;
         public CubeColor Color => _data.Color;
         public int Ammo => _data.Ammo;
         public bool IsActive => _data.IsActive;
         public bool IsDepleted => _data.IsDepleted;
 
-        // Hesaplamalı alanlar
         public bool IsOnCooldown => _data.CooldownRemaining > 0f;
         public bool CanFire => IsActive && Ammo > 0 && !IsOnCooldown;
         
         public float FireCooldown => _data.FireCooldown;
 
 
-        // Dış dünyanın merminin bittiğini anlaması için event
+        // For logic system
         public event Action Depleted;
 
 
@@ -72,7 +70,7 @@ namespace Blast.Core.Logic
 
             if (_data.IsDepleted)
             {
-                Depleted?.Invoke(); // Mermi bittiyse dışarıya bağır
+                Depleted?.Invoke(); // Notify listeners when depleted
             }
 
             return true;

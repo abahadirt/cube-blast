@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using System;
 namespace Blast.Core.Logic
 {
@@ -8,7 +8,6 @@ namespace Blast.Core.Logic
         private LaunchTraySlotData _data;
         public ShooterLogic ShooterLogic { get; private set; }
 
-        // Expose
         public bool IsAvailable => _data.IsEmpty; 
         public bool HasArrived => _data.HasArrived; 
         public float ArrivalProgress => _data.ArrivalProgress;
@@ -26,7 +25,6 @@ namespace Blast.Core.Logic
 
             _data.HasArrived = false;
 
-            //Tick için yeni
             _data.arrivalDuration = arrivalDuration;
             _data.arrivalElapsed = 0f;
             _data.ArrivalProgress = 0f;
@@ -34,7 +32,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // Shooter'in slota yerleşme surecini yonetir.
+        // Processes the shooter's arrival over time.
         public void Tick(float dt)
         {
             if (_data.HasArrived || _data.IsEmpty) return;

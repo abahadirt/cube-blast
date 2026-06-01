@@ -1,11 +1,11 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Blast.GameUnity.Level
 {
     [CreateAssetMenu(menuName = "Blast/Level Catalog", fileName = "LevelCatalog")]
     public class LevelCatalog : ScriptableObject
     {
-        [Tooltip("Leveller bu sıraya göre oynanır.")]
+        [Tooltip("Levels are played in this order.")]
         [SerializeField] private TextAsset[] _levels;
 
         public int Count => _levels.Length;

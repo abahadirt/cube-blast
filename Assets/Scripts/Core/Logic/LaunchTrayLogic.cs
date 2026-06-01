@@ -1,4 +1,4 @@
-using Blast.Core.Data;
+﻿using Blast.Core.Data;
 using Blast.Core.Event;
 using System.Collections.Generic;
 using Blast.Logging;
@@ -23,15 +23,14 @@ namespace Blast.Core.Logic
 
         }
 
-        // nullsa gönderme vs gereksiz ayrıntı...
         public void Tick(float deltaTime)
         {
             for (int i = 0; i < slotLogics.Length; i++)
             {
                 slotLogics[i].Tick(deltaTime);
             }
-            // TODO[P2] : TryMergeAll' early exit eklenecek. local parametre isimleri daha anlaşılır yapılacak. 
-            // TODO[P3] : Her tick'te merge kontrolü yapıyor -> bakılacak. refactor yaparken mid loop mutation dikkate alınacak.
+            // TODO[P2]: Add early exit to TryMergeAll. Improve local parameter names.
+            // TODO[P3]: Merge check happens every tick; review this. Consider mid-loop mutations during refactor. (after early exit refactor cost will be negligible).
             TryMergeAll(); 
         }
 
@@ -41,7 +40,7 @@ namespace Blast.Core.Logic
             if (slotIndex == -1) return -1;
             
             RegisterShooterAt(slotIndex, shooter, arrivalDuration);
-            // ShooterSentEvent iki farkli logic elemaniyla gerceklestirildiginden, event gameplay logicte queue'ya ekleniyor. 
+            // ShooterSentEvent spans multiple logic elements, so it is queued at the gameplaylogic.
             return slotIndex;
         }
 
@@ -83,7 +82,7 @@ namespace Blast.Core.Logic
 
         private void TryMergeAll()
         {
-            // Tray'de hangi renkler arrive olmuş halde var, onları topla
+            // Group arrived shooters by color.
             Dictionary<CubeColor, List<int>> slotsByColor = new Dictionary<CubeColor, List<int>>();
 
             for (int i = 0; i < slotLogics.Length; i++)
@@ -102,7 +101,7 @@ namespace Blast.Core.Logic
             }
 
 
-            // Her renk için merge kontrolü
+            // Check for merges per color.
             foreach (var kvp in slotsByColor)
             {
                 var matchingSlots = kvp.Value;
@@ -113,7 +112,7 @@ namespace Blast.Core.Logic
                 //AAEVENT
                 List<int> consumedShooterIds = new List<int>();
 
-                // Orijinal kuraldaki gibi: listenin 2. elemanı (index 1) hayatta kalıyor
+                // The second element (index 1) survives the merge.
                 int survivorIndex = matchingSlots[1];
 
                 //AAEVENT
@@ -135,7 +134,7 @@ namespace Blast.Core.Logic
 
                 slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
 
-                Log.Info(nameof(LaunchTrayLogic), $"Merge oldu! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
+                Log.Info(nameof(LaunchTrayLogic), $"Merge successful! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
                 _eventQueue.Enqueue(new ShootersMergedEvent(survivorShooterId, consumedShooterIds, slotLogics[survivorIndex].ShooterLogic.Ammo));
             }
 
@@ -143,7 +142,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P2]: çağrıldığı yer ve kendisi başka şekilde ele alınacak .
+        // TODO[P2]: Review usage and implementation.
         public void ActivateAll()
         {
             foreach (var slot in slotLogics)

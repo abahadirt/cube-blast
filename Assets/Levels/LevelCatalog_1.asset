@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Blast.GameUnity.Level.LevelCatalog
   _levels:
   - {fileID: 4900000, guid: 0ee235db4bdb90b4fa323e050549f54f, type: 3}
+  - {fileID: 4900000, guid: 6f6fbdd40082e2f4b8bba8c3f78da362, type: 3}

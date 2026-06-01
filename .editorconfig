@@ -5,3 +5,6 @@ charset = utf-8
 
 [*.{asmdef,json}]
 charset = utf-8
+
+[*.cs]
+charset = utf-8-bom

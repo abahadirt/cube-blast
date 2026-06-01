@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Blast.Core.Data;
 
 namespace Blast.GamePresentation.Contract

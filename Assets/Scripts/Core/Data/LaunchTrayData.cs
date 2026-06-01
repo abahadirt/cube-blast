@@ -1,4 +1,4 @@
-namespace Blast.Core.Data
+﻿namespace Blast.Core.Data
 {
 
     public class LaunchTrayData

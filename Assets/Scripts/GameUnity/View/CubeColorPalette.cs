@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Blast.Core.Data;
 
 namespace Blast.GameUnity.View

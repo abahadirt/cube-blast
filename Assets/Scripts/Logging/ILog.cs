@@ -1,4 +1,4 @@
-
+﻿
 namespace Blast.Logging
 {
     public interface ILog

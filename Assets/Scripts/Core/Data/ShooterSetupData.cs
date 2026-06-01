@@ -1,4 +1,4 @@
-namespace Blast.Core.Data
+﻿namespace Blast.Core.Data
 {
     [System.Serializable]
     public struct ShooterSetupData

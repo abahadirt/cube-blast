@@ -1,4 +1,4 @@
-using Blast.Core.Logic;
+﻿using Blast.Core.Logic;
 using Blast.GamePresentation.Contract;
 
 namespace Blast.GamePresentation.Presenter

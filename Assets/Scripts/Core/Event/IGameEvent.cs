@@ -1,4 +1,4 @@
-namespace Blast.Core.Event
+﻿namespace Blast.Core.Event
 {
     public interface IGameEvent {}
 }

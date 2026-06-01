@@ -10,6 +10,7 @@ namespace Blast.GameUnity.View
         [SerializeField] private Color blue = Color.blue;
         [SerializeField] private Color green = Color.green;
         [SerializeField] private Color yellow = Color.yellow;
+        [SerializeField] private Color black = Color.black;
 
         public Color Get(CubeColor c) => c switch
         {
@@ -17,6 +18,7 @@ namespace Blast.GameUnity.View
             CubeColor.Blue => blue,
             CubeColor.Green => green,
             CubeColor.Yellow => yellow,
+            CubeColor.Black => black,
             _ => Color.white
         };
     }

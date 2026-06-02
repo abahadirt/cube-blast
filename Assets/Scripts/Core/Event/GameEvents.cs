@@ -63,21 +63,6 @@ namespace Blast.Core.Event
             RemainingAmmo = remainingAmmo;
         }
     }
-    // TODO[P0]: review
-    public class CubeHitEvent : IGameEvent
-    {
-        public int Column { get; }
-
-        public int DestroyedLogicalRow { get; }
-        public bool IsDestroyed { get; }
-
-        public CubeHitEvent(int column, int destroyedLogicalRow, bool isDestroyed)
-        {
-            Column = column;
-            DestroyedLogicalRow = destroyedLogicalRow;
-            IsDestroyed = isDestroyed;
-        }
-    }
 
     public class LevelCompletedEvent : IGameEvent { }
 

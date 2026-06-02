@@ -1,7 +1,6 @@
 ﻿using Blast.GamePresentation.Contract;
 using Blast.GameUnity.Registry;
 using DG.Tweening;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -82,42 +81,38 @@ namespace Blast.GameUnity.View
         }
 
 
-        public void PlayMergeAnimation(int survivorShooterID, IReadOnlyList<int> consumedShooterIds, int totalAmmo)
+        public void PlayMergeAnimation(int survivorShooterId, int consumedShooterId1, int consumedShooterId2, int totalAmmo)
         {
-
-            if (!_registry.TryGet(survivorShooterID, out ShooterView survivorShooter))
+            if (!_registry.TryGet(survivorShooterId, out ShooterView survivorShooter))
             {
-                Debug.LogWarning($"[LaunchTrayView] Survivor ShooterView not found. ID: {survivorShooterID}");
+                Debug.LogWarning($"[LaunchTrayView] Survivor ShooterView not found. ID: {survivorShooterId}");
                 return;
             }
 
             int completedCount = 0;
-            int totalCount = consumedShooterIds.Count;
-
+            const int totalCount = 2;
 
             Vector3 targetPos = survivorShooter.transform.position;
-            Debug.Log($"[LaunchTrayView] Merge animation started. Survivor ID: {survivorShooterID}, Target Pos: {targetPos}");
-            foreach (int consumedId in consumedShooterIds)
+
+            void AnimateAndDestroy(int consumedId)
             {
-                if (_registry.TryGet(consumedId, out ShooterView consumedShooter))
-                {
-                    consumedShooter.MoveToPosition(targetPos, _mergeAnimationDuration).OnComplete(() =>
-                    {
-                        Destroy(consumedShooter.gameObject);
-                        completedCount++;
-                        if (completedCount == totalCount)
-                        {
-                            survivorShooter.SetAmmo(totalAmmo);
-                        }
-                    });
-                }
-                else
+                if (!_registry.TryGet(consumedId, out ShooterView consumedShooter))
                 {
                     Debug.LogWarning($"[LaunchTrayView] ShooterView not found. consumedId: {consumedId}.");
+                    return;
                 }
+
+                consumedShooter.MoveToPosition(targetPos, _mergeAnimationDuration).OnComplete(() =>
+                {
+                    Destroy(consumedShooter.gameObject);
+                    completedCount++;
+                    if (completedCount == totalCount)
+                        survivorShooter.SetAmmo(totalAmmo);
+                });
             }
 
-
+            AnimateAndDestroy(consumedShooterId1);
+            AnimateAndDestroy(consumedShooterId2);
         }
 
     }

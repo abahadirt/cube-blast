@@ -1,5 +1,4 @@
 ﻿using Blast.Core.Data;
-using System.Collections.Generic;
 
 // Classes used instead of structs to prevent boxing.
 // Beneficial if object pooling is added later (no GC, no boxing).
@@ -31,15 +30,15 @@ namespace Blast.Core.Event
     public class ShootersMergedEvent : IGameEvent
     {
         public int SurvivorShooterId { get; }
-
-        public IReadOnlyList<int> ConsumedShooterIds { get; }
-
+        public int ConsumedShooterId1 { get; }
+        public int ConsumedShooterId2 { get; }
         public int TotalAmmo { get; }
 
-        public ShootersMergedEvent(int survivorShooterId, List<int> consumedShooterIds, int totalAmmo)
+        public ShootersMergedEvent(int survivorShooterId, int consumedShooterId1, int consumedShooterId2, int totalAmmo)
         {
             SurvivorShooterId = survivorShooterId;
-            ConsumedShooterIds = consumedShooterIds.ToArray(); // TODO[P4]: Verify immutability and best practices.
+            ConsumedShooterId1 = consumedShooterId1;
+            ConsumedShooterId2 = consumedShooterId2;
             TotalAmmo = totalAmmo;
         }
     }

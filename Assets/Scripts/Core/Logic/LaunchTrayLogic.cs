@@ -1,7 +1,8 @@
 ﻿using Blast.Core.Data;
 using Blast.Core.Event;
-using System.Collections.Generic;
 using Blast.Logging;
+using System;
+
 namespace Blast.Core.Logic
 {
     public class LaunchTrayLogic
@@ -10,6 +11,8 @@ namespace Blast.Core.Logic
         private readonly LaunchTrayData _data;
 
         public LaunchTraySlotLogic[] slotLogics;
+
+        private static readonly int ColorCount = Enum.GetValues(typeof(CubeColor)).Length;
         public LaunchTrayLogic(int capacity, GameEventQueue eventQueue)
         {
             _eventQueue = eventQueue;
@@ -28,9 +31,7 @@ namespace Blast.Core.Logic
             for (int i = 0; i < slotLogics.Length; i++)
             {
                 slotLogics[i].Tick(deltaTime);
-            }
-            // TODO[P2]: Add early exit to TryMergeAll. Improve local parameter names.
-            // TODO[P3]: Merge check happens every tick; review this. Consider mid-loop mutations during refactor. (after early exit refactor cost will be negligible).
+            }        
             TryMergeAll(); 
         }
 
@@ -79,68 +80,82 @@ namespace Blast.Core.Logic
             }
         }
 
-
+        /// <summary>
+        /// Scans the tray to find and merge exactly three arrived shooters of the same color.
+        /// Highly optimized for zero-allocation (GC-friendly) performance during frequent calls:
+        /// 
+        /// 1. Stack Allocation (`stackalloc`): Uses the stack instead of the heap for temporary arrays, 
+        ///    completely eliminating Garbage Collection (GC) overhead and preventing micro-stutters.
+        ///    
+        /// 2. 1D Array as 2D Array: Instead of allocating complex nested lists or 2D arrays 
+        ///    (e.g., [Color][SlotIndex]), it uses a flat, continuous 1D array (`firstThree`). 
+        ///    The formula `color_index * 3 + current_count` maps the 2D logic directly into 1D space.
+        ///    
+        /// 3. Early Exit: Tracks `totalArrived` items and bypasses the merge loop entirely 
+        ///    if there are fewer than 3 items on the tray.
+        /// </summary>
         private void TryMergeAll()
         {
-            // Group arrived shooters by color.
-            Dictionary<CubeColor, List<int>> slotsByColor = new Dictionary<CubeColor, List<int>>();
+            const int TripleSize = 3;
+
+            // stack implementation:
+            Span<int> count = stackalloc int[ColorCount];
+            Span<int> firstThree = stackalloc int[ColorCount * TripleSize];
+            int totalArrived = 0;
 
             for (int i = 0; i < slotLogics.Length; i++)
             {
-                var slot = slotLogics[i];
-                if (!slot.IsAvailable && slot.HasArrived)
-                {
-                    var color = slot.ShooterLogic.Color;
-                    if (!slotsByColor.TryGetValue(color, out var list))
-                    {
-                        list = new List<int>();
-                        slotsByColor[color] = list;
-                    }
-                    list.Add(i);
-                }
+                LaunchTraySlotLogic slot = slotLogics[i];
+                if (slot.IsAvailable || !slot.HasArrived) continue;
+
+                int c = (int)slot.ShooterLogic.Color;
+                if (count[c] < TripleSize)               // after 3, don't care about the rest for merging
+                    firstThree[c * TripleSize + count[c]] = i;
+
+                count[c]++;
+                totalArrived++;
             }
 
-
-            // Check for merges per color.
-            foreach (var kvp in slotsByColor)
+            // Early exit: if less than 3 arrived elements. skip merge.
+            // ActivateAll() koşulun dışında, her tick çalışmalı.
+            if (totalArrived >= 3)
             {
-                var matchingSlots = kvp.Value;
-
-                if (matchingSlots.Count < 3)
-                    continue;
-
-                //AAEVENT
-                List<int> consumedShooterIds = new List<int>();
-
-                // The second element (index 1) survives the merge.
-                int survivorIndex = matchingSlots[1];
-
-                //AAEVENT
-                int survivorShooterId = slotLogics[survivorIndex].ShooterLogic.Id;
-
-                matchingSlots.RemoveAt(1);
-                List<int> consumedSlots = matchingSlots;
-
-                
-
-                int bonusAmmo = 0;
-                foreach (int index in consumedSlots)
+                for (int c = 0; c < ColorCount; c++)
                 {
-                    bonusAmmo += slotLogics[index].ShooterLogic.Ammo;
-                    //AAEVENT
-                    consumedShooterIds.Add(slotLogics[index].ShooterLogic.Id);
-                    slotLogics[index].Clear();
+                    if (count[c] < TripleSize) continue;
+
+                    int row = c * TripleSize;
+                    // middle (firstThree[row + 1]) survives.
+                    MergeTriple(firstThree[row], firstThree[row + 1], firstThree[row + 2]);
                 }
-
-                slotLogics[survivorIndex].ShooterLogic.AddAmmo(bonusAmmo);
-
-                Log.Info(nameof(LaunchTrayLogic), $"Merge successful! SurvivorShooterId: {survivorShooterId}, ConsumedShooterIds: {string.Join(", ", consumedShooterIds)}, TotalBonusAmmo: {bonusAmmo}");
-                _eventQueue.Enqueue(new ShootersMergedEvent(survivorShooterId, consumedShooterIds, slotLogics[survivorIndex].ShooterLogic.Ammo));
             }
 
             ActivateAll();
         }
 
+        // Middle slot element survives and absorbs ammo from the other two.
+        private void MergeTriple(int lowIndex, int midIndex, int highIndex)
+        {
+            ShooterLogic survivor = slotLogics[midIndex].ShooterLogic;
+            ShooterLogic consumedLow = slotLogics[lowIndex].ShooterLogic;
+            ShooterLogic consumedHigh = slotLogics[highIndex].ShooterLogic;
+
+            int survivorId = survivor.Id;
+            int consumedId1 = consumedLow.Id;
+            int consumedId2 = consumedHigh.Id;
+            int bonusAmmo = consumedLow.Ammo + consumedHigh.Ammo;
+
+            slotLogics[lowIndex].Clear();
+            slotLogics[highIndex].Clear();
+
+            survivor.AddAmmo(bonusAmmo);
+
+            Log.Info(nameof(LaunchTrayLogic),
+                $"Merge successful! Survivor: {survivorId}, Consumed: {consumedId1}, {consumedId2}, TotalAmmo: {survivor.Ammo}");
+
+            _eventQueue.Enqueue(new ShootersMergedEvent(survivorId, consumedId1, consumedId2, survivor.Ammo));
+        }
+       
 
         // TODO[P2]: Review usage and implementation.
         public void ActivateAll()

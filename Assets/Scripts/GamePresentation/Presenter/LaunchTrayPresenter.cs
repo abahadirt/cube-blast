@@ -1,5 +1,4 @@
 ﻿using Blast.Core.Logic;
-using System.Collections.Generic;
 using Blast.GamePresentation.Contract;
 
 
@@ -21,9 +20,9 @@ namespace Blast.GamePresentation.Presenter
         {
             _view.PlayArrivalAnimation(objectId, slotIndex, duration);
         }
-        public void MergeShooters(int survivorId, IReadOnlyList<int> consumedIds, int totalAmmo)
+        public void MergeShooters(int survivorId, int consumedId1, int consumedId2, int totalAmmo)
         {
-            _view.PlayMergeAnimation(survivorId, consumedIds, totalAmmo);
+            _view.PlayMergeAnimation(survivorId, consumedId1, consumedId2, totalAmmo);
         }
 
         public void TempResolveShooterFired(int shooterId, int remainingAmmo)

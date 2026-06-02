@@ -65,10 +65,9 @@ namespace Blast.GamePresentation.Presenter
                         _launchTrayPresenter.ReceiveShooter(e.ShooterId, e.TargetSlotIndex, e.ArrivalDuration);
                         Log.Info(nameof(GamePresenter), $"Shooter sent: Id={e.ShooterId}, Slot={e.TargetSlotIndex}, Dur={e.ArrivalDuration}");
                         break;
-
                     case ShootersMergedEvent e:
-                        _launchTrayPresenter.MergeShooters(e.SurvivorShooterId, e.ConsumedShooterIds, e.TotalAmmo);
-                        Log.Info(nameof(GamePresenter), $"Shooters merged: Survivor={e.SurvivorShooterId}, Consumed=[{string.Join(", ", e.ConsumedShooterIds)}], Ammo={e.TotalAmmo}");
+                        _launchTrayPresenter.MergeShooters(e.SurvivorShooterId, e.ConsumedShooterId1, e.ConsumedShooterId2, e.TotalAmmo);
+                        Log.Info(nameof(GamePresenter), $"Shooters merged: Survivor={e.SurvivorShooterId}, Consumed=[{e.ConsumedShooterId1}, {e.ConsumedShooterId2}], Ammo={e.TotalAmmo}");
                         break;
                     case ShooterFiredEvent e:
                         _launchTrayPresenter.TempResolveShooterFired(e.ShooterId, e.RemainingAmmo);

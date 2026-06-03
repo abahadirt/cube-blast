@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Blast.Core.Config;
 using Blast.Core.Data;
 using Blast.Logging;
+using System.Collections.Generic;
 
 namespace Blast.Core.Logic
 {
@@ -8,9 +9,11 @@ namespace Blast.Core.Logic
     {
         // Reserve columns' elements are consumed in FIFO order.
         // List is used instead of Queue to support future features requiring index-based access.
+        private readonly CoreConfig _config;
         private List<List<ShooterLogic>> _reserveColumns;
-        public ShooterReserveLogic(List<ReserveColumnData> reserveColumns)
+        public ShooterReserveLogic(List<ReserveColumnData> reserveColumns, CoreConfig config)
         {
+            _config = config;
             InitializeFromLevelData(reserveColumns);
         }
 
@@ -25,7 +28,7 @@ namespace Blast.Core.Logic
                 Log.Info(nameof(ShooterReserveLogic), $"Initializing shooter column with {columnData.shooters.Count} shooters.");
                 foreach (var shooterData in columnData.shooters)
                 {
-                    var shooter = new ShooterLogic(GenerateShooterId(), shooterData.color, shooterData.ammo);
+                    var shooter = new ShooterLogic(GenerateShooterId(), shooterData.color, shooterData.ammo, _config.FireCooldown);
                     columnQueue.Add(shooter);
                 }
 

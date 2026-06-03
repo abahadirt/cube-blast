@@ -1,4 +1,5 @@
-﻿using Blast.Core.Data;
+﻿using Blast.Core.Config;
+using Blast.Core.Data;
 using Blast.Core.Event;
 using Blast.Logging;
 using System;
@@ -7,14 +8,16 @@ namespace Blast.Core.Logic
 {
     public class LaunchTrayLogic
     {
+        private readonly CoreConfig _config;
         private readonly GameEventQueue _eventQueue;
         private readonly LaunchTrayData _data;
 
         public LaunchTraySlotLogic[] slotLogics;
 
         private static readonly int ColorCount = Enum.GetValues(typeof(CubeColor)).Length;
-        public LaunchTrayLogic(int capacity, GameEventQueue eventQueue)
+        public LaunchTrayLogic(int capacity, GameEventQueue eventQueue, CoreConfig config)
         {
+            _config = config;
             _eventQueue = eventQueue;
             _data = new LaunchTrayData(capacity);
 
@@ -35,12 +38,12 @@ namespace Blast.Core.Logic
             TryMergeAll(); 
         }
 
-        public int AddShooter(ShooterLogic shooter, float arrivalDuration=0.15f)
+        public int AddShooter(ShooterLogic shooter)
         {
             int slotIndex = GetAvailableSlotIndex();
             if (slotIndex == -1) return -1;
             
-            RegisterShooterAt(slotIndex, shooter, arrivalDuration);
+            RegisterShooterAt(slotIndex, shooter, _config.ArrivalDuration);
             // ShooterSentEvent spans multiple logic elements, so it is queued at the gameplaylogic.
             return slotIndex;
         }

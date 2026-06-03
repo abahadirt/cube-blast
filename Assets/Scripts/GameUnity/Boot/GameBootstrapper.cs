@@ -1,5 +1,6 @@
 ﻿using Blast.Core.Event;
 using Blast.Core.Logic;
+using Blast.Core.Config;
 using Blast.GamePresentation.Presenter;
 using Blast.GameUnity.Input;
 using Blast.GameUnity.Level;
@@ -59,9 +60,10 @@ namespace Blast.GameUnity.Boot
             var eventQueue = new GameEventQueue();
 
             // --- Logic layer ---
+            var coreConfig = new CoreConfig(); // use default config values.
             var boardLogic = new BoardLogic(columns, totalRows, rows);
-            var trayLogic = new LaunchTrayLogic(launchTrayCapacity, eventQueue);
-            var reserveLogic = new ShooterReserveLogic(reserveColumns);
+            var trayLogic = new LaunchTrayLogic(launchTrayCapacity, eventQueue, coreConfig);
+            var reserveLogic = new ShooterReserveLogic(reserveColumns, coreConfig);
             var targetSelector = new TargetSelector(boardLogic);
             var fireCoord = new FireCoordinator(targetSelector, trayLogic, eventQueue);
             var levelConditionEvaluator = new LevelConditionEvaluator(boardLogic, trayLogic, reserveLogic, eventQueue);

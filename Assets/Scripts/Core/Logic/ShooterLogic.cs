@@ -7,9 +7,9 @@ namespace Blast.Core.Logic
     {
         private readonly ShooterData _data;
 
-        public ShooterLogic(int id, CubeColor color, int ammo)
+        public ShooterLogic(int id, CubeColor color, int ammo, float fireCooldown)
         {
-            _data = new ShooterData(id, color, ammo);
+            _data = new ShooterData(id, color, ammo, fireCooldown);
         }
 
 

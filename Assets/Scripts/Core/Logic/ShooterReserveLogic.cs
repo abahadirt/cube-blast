@@ -79,5 +79,36 @@ namespace Blast.Core.Logic
             return true;
         }
 
+        
+        public int ColumnCount => _reserveColumns.Count;
+        
+        public int GetColumnLength(int columnIndex)
+        {
+            if (columnIndex < 0 || columnIndex >= _reserveColumns.Count) return 0;
+            return _reserveColumns[columnIndex].Count;
+        }
+        
+        public bool TryPeek(int columnIndex, int depth, out CubeColor color, out int ammo)
+        {
+            color = default;
+            ammo = 0;
+            // Check if column exists
+            if (columnIndex < 0 || columnIndex >= _reserveColumns.Count) return false;
+            var column = _reserveColumns[columnIndex];
+            // Check if depth is within bounds
+            if (depth < 0 || depth >= column.Count) return false;
+            var shooter = column[depth];
+            color = shooter.Color;
+            ammo = shooter.Ammo;
+            return true;
+        }
+
+
+
+
+
+
+
+
     }
 }

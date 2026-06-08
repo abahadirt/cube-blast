@@ -70,7 +70,7 @@ namespace Blast.GamePresentation.Presenter
                         Log.Info(nameof(GamePresenter), $"Shooters merged: Survivor={e.SurvivorShooterId}, Consumed=[{e.ConsumedShooterId1}, {e.ConsumedShooterId2}], Ammo={e.TotalAmmo}");
                         break;
                     case ShooterFiredEvent e:
-                        _launchTrayPresenter.TempResolveShooterFired(e.ShooterId, e.RemainingAmmo);
+                        _launchTrayPresenter.ResolveShooterFired(e.ShooterId, e.RemainingAmmo);
                         _boardPresenter.EnqueueHit(e.TargetColumn, e.TargetLogicalRow);
                         _projectileLauncher.FireFromTrayToBoard(e.Color, e.SlotIndex,e.TargetColumn,
                             onArrived: () => _boardPresenter.OnProjectileArrived(e.TargetColumn));       

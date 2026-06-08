@@ -22,46 +22,39 @@ namespace Blast.GameUnity.View
         }
 
 
-        // TODO[P0] : Review approach
-        public void TempUpdateShooterAmmo(int shooterId, int ammo)
+        public void UpdateShooterAmmo(int shooterId, int ammo)
         {
-
             if (_registry.TryGet(shooterId, out ShooterView shooter))
             {
                 shooter.SetAmmo(ammo);
             }
             else
             {
-                Debug.LogWarning($"ShooterView not found. shooterId: {shooterId}. This is a bad sign...");
-            }
-            if (ammo <= 0)
-            {
-                //shooter.MoveToPosition(new Vector3(-3,-2.5f), 0.5f).OnComplete(() => Destroy(shooter.gameObject));
-                TempPlayDepartureAnimation(shooter);
+                Debug.LogWarning($"[LaunchTrayView] ShooterView not found. shooterId: {shooterId}");
             }
         }
 
 
-        // TODO[P0]: Review this approach. Code will need to be updated when the animation changes.
-        public void TempPlayDepartureAnimation(ShooterView shooter)
+        public void PlayDepartureAnimation(int shooterId)
         {
-            Sequence exitSequence = DOTween.Sequence();
-            exitSequence.AppendInterval(0.05f);
-
-            exitSequence.Append(shooter.transform.DOMoveY(transform.position.y + 0.5f, 0.2f));
-
-            // 2. Add a 0.2 seconds delay.
-            exitSequence.AppendInterval(0.05f);
-            int exitX = -4;
-            float speedX = 10f;
-            float leftDuration = (shooter.transform.position.x - exitX) / speedX;
-            // 3. Move left after the delay (duration: 0.4 seconds).
-            exitSequence.Append(shooter.transform.DOMoveX(-4, leftDuration));
-
-            exitSequence.OnComplete(() =>
+            if (!_registry.TryGet(shooterId, out ShooterView shooter))
             {
-                Destroy(shooter.gameObject);
-            });
+                Debug.LogWarning($"[LaunchTrayView] Departure: ShooterView not found. shooterId: {shooterId}.");
+                return;
+            }
+
+            _registry.Unregister(shooterId);
+
+            const float exitX = -4f;
+            const float speedX = 10f;
+            float leftDuration = (shooter.transform.position.x - exitX) / speedX;
+
+            DOTween.Sequence()
+                .AppendInterval(0.05f)
+                .Append(shooter.transform.DOMoveY(transform.position.y + 0.5f, 0.2f))
+                .AppendInterval(0.05f)
+                .Append(shooter.transform.DOMoveX(exitX, leftDuration))
+                .OnComplete(() => Destroy(shooter.gameObject));
         }
 
         public Vector3 GetSlotPosition(int index)

@@ -25,9 +25,13 @@ namespace Blast.GamePresentation.Presenter
             _view.PlayMergeAnimation(survivorId, consumedId1, consumedId2, totalAmmo);
         }
 
-        public void TempResolveShooterFired(int shooterId, int remainingAmmo)
+        public void ResolveShooterFired(int shooterId, int remainingAmmo)
         {
-            _view.TempUpdateShooterAmmo(shooterId, remainingAmmo);
+            _view.UpdateShooterAmmo(shooterId, remainingAmmo);
+            if (remainingAmmo <= 0)
+            {
+                _view.PlayDepartureAnimation(shooterId);
+            }
         }
 
 

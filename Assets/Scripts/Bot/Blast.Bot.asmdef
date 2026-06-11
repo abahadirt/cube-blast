@@ -1,0 +1,22 @@
+{
+    "name": "Blast.Bot",
+    "rootNamespace": "Blast.Bot",
+    "references": [
+        "GUID:15b8a08aa3216a54ea852c588d11a90b",
+        "GUID:45233a1327fa3134a9750b9efece56c4",
+        "GUID:56ccc217ab53ec34cbf941b695dd0455"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

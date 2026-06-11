@@ -22,7 +22,7 @@ namespace Blast.Bot.Runner
             Tray = new LaunchTrayLogic(level.launchTrayCapacity, Queue, config);
             Reserve = new ShooterReserveLogic(level.reserveColumns, config);
             var targets = new TargetSelector(Board);
-            var fire = new FireCoordinator(targets, Tray, Queue);
+            var fire = new FireCoordinator(targets, Tray, Board, Queue);
             var eval = new LevelConditionEvaluator(Board, Tray, Reserve, Queue);
             Gameplay = new GameplayLogic(Board, Tray, Reserve, targets, fire, Queue, eval);
             Columns = level.columns;

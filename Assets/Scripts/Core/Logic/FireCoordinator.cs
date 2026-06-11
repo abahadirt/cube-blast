@@ -9,15 +9,16 @@ namespace Blast.Core.Logic
         private readonly TargetSelector _targetSelector;
 
         private LaunchTrayLogic _launchTrayLogic;
-        public FireCoordinator(TargetSelector targetSelector, LaunchTrayLogic launchTrayLogic, GameEventQueue eventQueue)
+        private readonly BoardLogic _boardLogic;
+        public FireCoordinator(TargetSelector targetSelector, LaunchTrayLogic launchTrayLogic, BoardLogic boardLogic, GameEventQueue eventQueue)
         {
             _targetSelector = targetSelector;
             _launchTrayLogic = launchTrayLogic;
+            _boardLogic = boardLogic;
             _eventQueue = eventQueue;
         }
 
 
-        // TODO[P1]: Review this approach.
         public void Tick(float deltaTime)
         {
             int slotIndex = -1;
@@ -33,14 +34,15 @@ namespace Blast.Core.Logic
 
                 if (!shooter.CanFire) continue;
 
-                var targetResult = _targetSelector.FindTarget(shooter.Color);
+                var targetResult = _targetSelector.SelectTarget(shooter.Color);
                 if (!targetResult.HasTarget) continue;
-
-
 
                 int targetColumn = targetResult.Column;
                 int hitRow = targetResult.Row;
+
+                _boardLogic.LogicalHit(targetColumn); // pre emptive hit
                 shooter.Fire();
+
                 _eventQueue.Enqueue(new ShooterFiredEvent(shooter.Id, slotIndex, shooter.Color, targetColumn, hitRow, shooter.Ammo));
             }
         }

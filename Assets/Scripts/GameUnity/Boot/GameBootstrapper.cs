@@ -65,7 +65,7 @@ namespace Blast.GameUnity.Boot
             var trayLogic = new LaunchTrayLogic(launchTrayCapacity, eventQueue, coreConfig);
             var reserveLogic = new ShooterReserveLogic(reserveColumns, coreConfig);
             var targetSelector = new TargetSelector(boardLogic);
-            var fireCoord = new FireCoordinator(targetSelector, trayLogic, eventQueue);
+            var fireCoord = new FireCoordinator(targetSelector, trayLogic, boardLogic, eventQueue);
             var levelConditionEvaluator = new LevelConditionEvaluator(boardLogic, trayLogic, reserveLogic, eventQueue);
             var gameplayLogic = new GameplayLogic(boardLogic, trayLogic, reserveLogic, targetSelector, fireCoord, eventQueue, levelConditionEvaluator);
 

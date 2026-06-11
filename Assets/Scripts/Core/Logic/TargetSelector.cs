@@ -31,8 +31,7 @@ namespace Blast.Core.Logic
         }
 
 
-        // TODO[P0]: Will be REFACTORED
-        public TargetResult FindTarget(CubeColor color)
+        public TargetResult SelectTarget(CubeColor color)
         {
             if (!_colorMemory.ContainsKey(color))
                 _colorMemory[color] = -1;
@@ -47,7 +46,7 @@ namespace Blast.Core.Logic
                 {
                     _colorMemory[color] = currentCol;
                     int hitRow = _board.GetColumnBottom(currentCol);
-                    _board.LogicalHit(currentCol); // pre emptive hit
+                    
                     return new TargetResult(true, currentCol,hitRow);
                 }
             }

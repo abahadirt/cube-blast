@@ -57,7 +57,7 @@ The player faces a board of colored cubes and a reserve of pre-placed shooters a
 1. **Tap a reserve column:** the front-most shooter is dispatched to the next free slot in the launch tray.
 2. **Merge:** when three shooters of the same color are in the tray, they merge into one: the middle shooter stays and absorbs the other two's ammo, and the other two leave, freeing their slots. Merging is therefore both an ammo bonus and a tray-management mechanic; freeing slots is what keeps new shooters coming and stops the player from running out of tray space.
 3. **Auto-fire:** an active shooter automatically targets the bottom-most cube of any column whose color matches it, on a fixed fire cooldown, until its ammo runs out and it leaves the tray.
-4. **Board resolution:** on a hit, the bottom cube is destroyed, the column shifts down by one row, and the cube above takes its place at the bottom.
+4. **Board resolution:** on a hit, the bottom cube is destroyed and the cubes above fall down one row to fill the gap.
 
 **Targeting** uses a round-robin per-color policy: each color remembers the last column it hit and continues from the next one, so fire fans out across the board rather than concentrating on a single column.
 
@@ -331,12 +331,12 @@ The stochastic baseline clears `Level_001` 20.8% of the time and `Level_002` onl
 
 ```
 Assets/Scripts/
-├── Core/          # Game simulation and rules
-├── Level/         # Level data and parsing
-├── Logging/       # Logging abstraction
-├── Bot/           # Headless simulation runner, observation modes, policies, metrics, replay
-├── Presentation/  # Presenters and view contracts
-└── GameUnity/     # Unity-specific views, input, animations, bootstrapping
+├── Core/             # Game simulation and rules
+├── Level/            # Level data and parsing
+├── Logging/          # Logging abstraction
+├── Bot/              # Headless simulation runner, observation modes, policies, metrics, replay
+├── GamePresentation/ # Presenters and view contracts
+└── GameUnity/        # Unity-specific views, input, animations, bootstrapping
 
 Tools/Blast.Bot.Cli/     # .NET 9 headless CLI project
 ```
@@ -364,7 +364,7 @@ The headless CLI compiles only the Unity-free code — Core, Level, Logging, and
 1. Clone the repository and open the project in Unity.
 2. Open the game scene (`Assets/Scenes/GameScene.unity`).
 3. Press **Play**. The loaded level comes from the saved progress index; on a fresh install, the first catalog entry is used. Winning advances to the next level, losing replays the current one.
-> A [playable engineering demo](https://abturhan.itch.io/cube-blast-demo) is also available on itch.io.
+> A [playable engineering demo](https://abturhan.itch.io/cube-blast-demo?password=0) is also available on itch.io.
 ### Run the headless bot
 The same gameplay core can be driven without Unity through the bot harness: single runs, seed sweeps, batch runs, CSV metrics, and deterministic replay logs. See [Bot Harness](#bot-harness--headless-simulation).
 
@@ -434,7 +434,7 @@ This project is a vertical slice of a hybrid-casual gameplay core, supported by 
 
 **Planned next:**
 - Two additional bot policies beyond the stochastic baseline.
-- Replay playback. Recording is implemented (seed, tap trace, core config, level hash, event-stream fingerprint); the missing half is a driver that replays a log headlessly to re-verify the fingerprint, and optionally plays it back in the Unity scene for visual inspection.
+- Replay playback. Recording is implemented (seed, tap trace, core config, level hash, event-stream fingerprint); the missing half is a driver that plays a recorded log back in the Unity scene, so a level can be watched and judged for how it actually plays.
 - A level-design pipeline: procedural level generation -> batch bot simulation -> metric analysis of the harness CSV output in Python. The CSV schema is already versioned and shaped for aggregate analysis.
 
 

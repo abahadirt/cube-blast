@@ -9,15 +9,12 @@ namespace Blast.Bot.Policy
     public sealed class PolicyRegistry
     {
         public IReadOnlyList<string> Names { get; } = new[] { "stochastic" };
-        // public IReadOnlyList<string> Names { get; } = new[] { "greedy", "stochastic", "heuristic" };
 
         public IBotPolicy Create(string name)
         {
             switch (name.ToLowerInvariant())
             {
                 case "stochastic": return new StochasticPolicy();
-                // case "greedy": return new GreedyPolicy();
-                // case "heuristic": return new HeuristicPolicy();
                 default:
                     throw new ArgumentException($"Unknown policy '{name}' ({string.Join("|", Names)}).");
             }
